@@ -6,13 +6,13 @@ import 'package:abschluss_projekt/Classes/my_pics.dart';
 class HomePage extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
   HomePage({super.key});
-
+  // TODO: Icons statt Bildern benutzen (Versuch)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.whiteSpace,
       appBar: AppBar(
-        backgroundColor: Color(0xFFDDDDDD),
+        toolbarHeight: 64,
         title: Padding(
           padding: const EdgeInsets.all(6.0),
           child: Text("Finance Tracker"),
@@ -71,17 +71,25 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.large(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(32),
+          borderRadius: BorderRadiusGeometry.circular(48),
         ),
         elevation: 8,
         backgroundColor: MyColors.primary,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, "/addPage");
+        },
         child: Icon(Icons.add, color: MyColors.whiteSpace),
       ),
       bottomNavigationBar: NavigationBar(
         backgroundColor: MyColors.notBody,
+        onDestinationSelected: (value) {
+          if (value == 1) {
+          } else if (value == 2) {
+          } else if (value == 3) {
+          } else {}
+        },
         destinations: [
           NavigationDestination(
             icon: Icon(Icons.home, size: 38),
