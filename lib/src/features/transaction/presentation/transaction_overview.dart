@@ -1,12 +1,12 @@
-import 'package:abschluss_projekt/Widgets/blue_card.dart';
+import 'package:abschluss_projekt/src/common/widgets/blue_card.dart';
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/Classes/my_colors.dart';
-import 'package:abschluss_projekt/Classes/my_pics.dart';
+import 'package:abschluss_projekt/src/common/classes/my_colors.dart';
+import 'package:abschluss_projekt/src/common/classes/my_pics.dart';
 
-class HomePage extends StatelessWidget {
+class TransactionOverview extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
-  HomePage({super.key});
-  // TODO: Icons statt Bildern benutzen (Versuch)
+  TransactionOverview({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.large(
+      floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(48),
         ),

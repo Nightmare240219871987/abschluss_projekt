@@ -1,12 +1,12 @@
-import 'package:abschluss_projekt/Widgets/colorized_icon_button.dart';
-import 'package:abschluss_projekt/Widgets/styled_text_field.dart';
+import 'package:abschluss_projekt/src/common/widgets/colorized_icon_button.dart';
+import 'package:abschluss_projekt/src/common/widgets/styled_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/Classes/my_colors.dart';
+import 'package:abschluss_projekt/src/common/classes/my_colors.dart';
 
 // ignore: must_be_immutable
-class AddPage extends StatelessWidget {
+class AddTransaction extends StatelessWidget {
   late BuildContext context;
-  AddPage({super.key});
+  AddTransaction({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class AddPage extends StatelessWidget {
               label: "Beschreibung der Transaktion",
               borderColor: MyColors.primary,
             ),
-            SizedBox(height: 100),
+
             Row(
               children: [
                 Checkbox(value: false, onChanged: onContinuousOutput),
@@ -108,7 +108,7 @@ class AddPage extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.large(
+      floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(48),
         ),
