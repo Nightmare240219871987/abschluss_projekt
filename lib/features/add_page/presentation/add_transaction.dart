@@ -1,24 +1,20 @@
+import 'package:abschluss_projekt/data/widgets/appbar.dart';
 import 'package:abschluss_projekt/features/add_page/domain/colorized_icon_button.dart';
-import 'package:abschluss_projekt/features/add_page/domain/styled_text_field.dart';
+import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/data/my_colors.dart';
 
 // ignore: must_be_immutable
 class AddTransaction extends StatelessWidget {
   late BuildContext context;
-  AddTransaction({super.key});
+  // ignore: prefer_typing_uninitialized_variables
+  final ThemeProvider themeProvider;
+  AddTransaction({super.key, required this.themeProvider});
 
   @override
   Widget build(BuildContext context) {
     this.context = context;
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 64,
-        title: Padding(
-          padding: EdgeInsetsGeometry.all(8),
-          child: Text("Finance Tracker"),
-        ),
-      ),
+      appBar: MyAppBar(themeProvider: themeProvider),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -29,41 +25,53 @@ class AddTransaction extends StatelessWidget {
               spacing: 40,
               children: [
                 ColorizedIconButton(
-                  icon: Icon(Icons.input_outlined, color: MyColors.whiteSpace),
-                  backgroundColor: MyColors.primary,
+                  icon: Icon(Icons.input_outlined),
                   onPressed: () {},
                 ),
                 ColorizedIconButton(
-                  icon: Icon(Icons.output_outlined, color: MyColors.whiteSpace),
-                  backgroundColor: MyColors.primary,
+                  icon: Icon(Icons.output_outlined),
                   onPressed: () {},
                 ),
                 ColorizedIconButton(
-                  icon: Icon(Icons.euro_outlined, color: MyColors.whiteSpace),
-                  backgroundColor: MyColors.primary,
+                  icon: Icon(Icons.euro_outlined),
+
                   onPressed: () {},
                 ),
                 ColorizedIconButton(
-                  icon: Icon(
-                    Icons.qr_code_2_outlined,
-                    color: MyColors.whiteSpace,
-                  ),
-                  backgroundColor: MyColors.primary,
+                  icon: Icon(Icons.qr_code_2_outlined),
                   onPressed: () {},
                 ),
               ],
             ),
-            StyledTextField(
-              label: "Title der Transaktion",
-              borderColor: MyColors.primary,
+            TextField(
+              decoration: InputDecoration(
+                label: Text("Titel der Transaktion"),
+                labelStyle: TextStyle(
+                  color: themeProvider.isDarkMode
+                      ? Color(0xFFeeeeee)
+                      : Color(0xFF111111),
+                ),
+              ),
             ),
-            StyledTextField(
-              label: "Betrag der Transaktion",
-              borderColor: MyColors.primary,
+            TextField(
+              decoration: InputDecoration(
+                label: Text("Beschreibung der Transaktion"),
+                labelStyle: TextStyle(
+                  color: themeProvider.isDarkMode
+                      ? Color(0xFFeeeeee)
+                      : Color(0xFF111111),
+                ),
+              ),
             ),
-            StyledTextField(
-              label: "Beschreibung der Transaktion",
-              borderColor: MyColors.primary,
+            TextField(
+              decoration: InputDecoration(
+                label: Text("Betrag der Transaktion"),
+                labelStyle: TextStyle(
+                  color: themeProvider.isDarkMode
+                      ? Color(0xFFeeeeee)
+                      : Color(0xFF111111),
+                ),
+              ),
             ),
 
             Row(
@@ -73,14 +81,6 @@ class AddTransaction extends StatelessWidget {
               ],
             ),
             ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(MyColors.primary),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(8),
-                  ),
-                ),
-              ),
               onPressed: onDatePressed,
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
@@ -88,18 +88,8 @@ class AddTransaction extends StatelessWidget {
                   spacing: 4,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.calendar_month_outlined,
-                      color: MyColors.whiteSpace,
-                      size: 24,
-                    ),
-                    Text(
-                      "Datum",
-                      style: TextStyle(
-                        color: MyColors.whiteSpace,
-                        fontSize: 24,
-                      ),
-                    ),
+                    Icon(Icons.calendar_month_outlined, size: 24),
+                    Text("Datum", style: TextStyle(fontSize: 24)),
                   ],
                 ),
               ),
@@ -113,15 +103,13 @@ class AddTransaction extends StatelessWidget {
           borderRadius: BorderRadiusGeometry.circular(48),
         ),
         elevation: 8,
-        backgroundColor: MyColors.primary,
         onPressed: () {
           //Navigator.pushNamed(context, "/addPage");
         },
 
-        child: Icon(Icons.add, color: MyColors.whiteSpace),
+        child: Icon(Icons.add),
       ),
       bottomNavigationBar: NavigationBar(
-        backgroundColor: MyColors.notBody,
         onDestinationSelected: (value) {
           if (value == 1) {
           } else if (value == 2) {

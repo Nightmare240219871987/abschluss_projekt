@@ -1,23 +1,18 @@
+import 'package:abschluss_projekt/data/widgets/appbar.dart';
 import 'package:abschluss_projekt/features/dashboard/domain/blue_card.dart';
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/data/my_colors.dart';
 import 'package:abschluss_projekt/data/my_pics.dart';
 
-class TransactionOverview extends StatelessWidget {
+class Dashboard extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
+  final themeProvider;
   // ignore: prefer_const_constructors_in_immutables
-  TransactionOverview({super.key});
+  Dashboard({super.key, required this.themeProvider});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.whiteSpace,
-      appBar: AppBar(
-        toolbarHeight: 64,
-        title: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Text("Finance Tracker"),
-        ),
-      ),
+      appBar: MyAppBar(themeProvider: themeProvider),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -49,10 +44,10 @@ class TransactionOverview extends StatelessWidget {
                 title: "Ausgaben",
                 ammount: "800,00€",
                 image: MyPics.outgoing,
-                titleColor: MyColors.blueCardRed,
+                titleColor: Color.fromARGB(255, 241, 103, 93),
                 icon: Icon(
                   Icons.arrow_downward_rounded,
-                  color: MyColors.blueCardRed,
+                  color: Color.fromARGB(255, 241, 103, 93),
                   size: 28,
                 ),
               ),
@@ -76,14 +71,12 @@ class TransactionOverview extends StatelessWidget {
           borderRadius: BorderRadiusGeometry.circular(48),
         ),
         elevation: 8,
-        backgroundColor: MyColors.primary,
         onPressed: () {
           Navigator.pushNamed(context, "/addPage");
         },
-        child: Icon(Icons.add, color: MyColors.whiteSpace),
+        child: Icon(Icons.add),
       ),
       bottomNavigationBar: NavigationBar(
-        backgroundColor: MyColors.notBody,
         onDestinationSelected: (value) {
           if (value == 1) {
           } else if (value == 2) {

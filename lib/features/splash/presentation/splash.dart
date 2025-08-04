@@ -1,4 +1,3 @@
-import 'package:abschluss_projekt/data/my_colors.dart';
 import 'package:abschluss_projekt/data/my_pics.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +11,8 @@ class Splash extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              MyColors.primary,
-              MyColors.primary,
+              const Color(0xFF392FFF),
+              const Color(0xFF392FFF),
               Color(0xff221c99),
               Color(0xff221c99),
             ],
@@ -31,10 +30,7 @@ class Splash extends StatelessWidget {
                 children: [
                   MyPics.logo,
                   SizedBox(width: 20),
-                  Text(
-                    "Finance Tracker",
-                    style: TextStyle(color: MyColors.whiteSpace, fontSize: 38),
-                  ),
+                  Text("Finance Tracker", style: TextStyle(fontSize: 38)),
                 ],
               ),
             ),

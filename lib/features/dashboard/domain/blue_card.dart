@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/data/my_colors.dart';
 
 // ignore: must_be_immutable
 class BlueCard extends StatelessWidget {
@@ -21,16 +20,14 @@ class BlueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
-      color: MyColors.primary,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors.whiteSpace,
                 borderRadius: BorderRadius.circular(8),
+                color: const Color(0xFFeeeeee),
               ),
               child: Padding(padding: const EdgeInsets.all(8.0), child: image),
             ),
@@ -51,7 +48,10 @@ class BlueCard extends StatelessWidget {
                 ),
                 Text(
                   ammount,
-                  style: TextStyle(color: MyColors.whiteSpace, fontSize: 28),
+                  style: TextStyle(
+                    fontSize: 28,
+                    color: Theme.of(context).secondaryHeaderColor,
+                  ),
                 ),
               ],
             ),
