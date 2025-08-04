@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/src/common/classes/my_colors.dart';
+import 'package:abschluss_projekt/data/my_colors.dart';
 
 // ignore: must_be_immutable
 class BlueCard extends StatelessWidget {

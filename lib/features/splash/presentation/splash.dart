@@ -1,5 +1,5 @@
-import 'package:abschluss_projekt/src/common/classes/my_colors.dart';
-import 'package:abschluss_projekt/src/common/classes/my_pics.dart';
+import 'package:abschluss_projekt/data/my_colors.dart';
+import 'package:abschluss_projekt/data/my_pics.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatelessWidget {

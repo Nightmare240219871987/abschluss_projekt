@@ -1,7 +1,7 @@
-import 'package:abschluss_projekt/src/common/widgets/blue_card.dart';
+import 'package:abschluss_projekt/features/dashboard/domain/blue_card.dart';
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/src/common/classes/my_colors.dart';
-import 'package:abschluss_projekt/src/common/classes/my_pics.dart';
+import 'package:abschluss_projekt/data/my_colors.dart';
+import 'package:abschluss_projekt/data/my_pics.dart';
 
 class TransactionOverview extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
