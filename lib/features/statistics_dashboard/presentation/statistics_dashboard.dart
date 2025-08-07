@@ -53,8 +53,14 @@ class StatisticsDashboard extends StatelessWidget {
                 child: BarChart(
                   BarChartData(
                     barGroups: [
-                      BarChartGroupData(x: 1),
-                      BarChartGroupData(x: 3),
+                      BarChartGroupData(
+                        x: 1,
+                        barRods: [BarChartRodData(toY: 7)],
+                      ),
+                      BarChartGroupData(
+                        x: 3,
+                        barRods: [BarChartRodData(toY: 7)],
+                      ),
                     ],
                   ),
                 ),

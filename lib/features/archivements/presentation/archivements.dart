@@ -13,11 +13,7 @@ class Archivements extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(themeProvider: themeProvider),
-      body: BarChart(
-        BarChartData(
-          barGroups: [BarChartGroupData(x: 1), BarChartGroupData(x: 3)],
-        ),
-      ),
+      body: const Placeholder(),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (value) {
           RouteDefinition.route(context, value);
