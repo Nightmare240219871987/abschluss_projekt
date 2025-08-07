@@ -1,6 +1,7 @@
 import 'package:abschluss_projekt/common/classes/route_definition.dart';
 import 'package:abschluss_projekt/common/widgets/appbar.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class Archivements extends StatelessWidget {
@@ -12,7 +13,11 @@ class Archivements extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(themeProvider: themeProvider),
-      body: const Placeholder(),
+      body: BarChart(
+        BarChartData(
+          barGroups: [BarChartGroupData(x: 1), BarChartGroupData(x: 3)],
+        ),
+      ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (value) {
           RouteDefinition.route(context, value);

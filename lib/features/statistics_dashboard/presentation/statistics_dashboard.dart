@@ -2,6 +2,7 @@ import 'package:abschluss_projekt/common/classes/route_definition.dart';
 import 'package:abschluss_projekt/common/widgets/appbar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsDashboard extends StatelessWidget {
@@ -47,7 +48,17 @@ class StatisticsDashboard extends StatelessWidget {
                   ),
                 ],
               ),
-
+              SizedBox(
+                height: 450,
+                child: BarChart(
+                  BarChartData(
+                    barGroups: [
+                      BarChartGroupData(x: 1),
+                      BarChartGroupData(x: 3),
+                    ],
+                  ),
+                ),
+              ),
               ListTile(
                 leading: Text("Januar:"),
                 subtitle: Column(
