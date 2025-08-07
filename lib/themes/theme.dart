@@ -41,6 +41,14 @@ ThemeData light = ThemeData(
     ),
   ),
 
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: const Color(0xFF392FFF),
+    borderRadius: BorderRadius.only(
+      topRight: Radius.circular(8),
+      bottomRight: Radius.circular(8),
+    ),
+  ),
+  listTileTheme: ListTileThemeData(minLeadingWidth: 125),
   cardTheme: CardThemeData(color: const Color(0xFF392FFF), elevation: 4),
   brightness: Brightness.light,
 );
@@ -78,6 +86,15 @@ ThemeData dark = ThemeData(
     ),
   ),
 
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: const Color(0xFF392FFF),
+    borderRadius: BorderRadius.only(
+      topRight: Radius.circular(8),
+      bottomRight: Radius.circular(8),
+    ),
+  ),
+
+  listTileTheme: ListTileThemeData(minLeadingWidth: 125),
   brightness: Brightness.dark,
 );
 

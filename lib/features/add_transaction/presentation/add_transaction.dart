@@ -1,5 +1,6 @@
-import 'package:abschluss_projekt/data/widgets/appbar.dart';
-import 'package:abschluss_projekt/features/add_page/domain/colorized_icon_button.dart';
+import 'package:abschluss_projekt/common/classes/route_definition.dart';
+import 'package:abschluss_projekt/common/widgets/appbar.dart';
+import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -111,10 +112,7 @@ class AddTransaction extends StatelessWidget {
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (value) {
-          if (value == 1) {
-          } else if (value == 2) {
-          } else if (value == 3) {
-          } else {}
+          RouteDefinition.route(context, value);
         },
         destinations: [
           NavigationDestination(

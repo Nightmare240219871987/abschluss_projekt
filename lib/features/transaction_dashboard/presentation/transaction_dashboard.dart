@@ -1,13 +1,15 @@
-import 'package:abschluss_projekt/data/widgets/appbar.dart';
-import 'package:abschluss_projekt/features/dashboard/domain/blue_card.dart';
+import 'package:abschluss_projekt/common/classes/route_definition.dart';
+import 'package:abschluss_projekt/common/widgets/appbar.dart';
+import 'package:abschluss_projekt/features/transaction_dashboard/domain/blue_card.dart';
+import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:abschluss_projekt/data/my_pics.dart';
 
-class Dashboard extends StatelessWidget {
+class TransactionDashboard extends StatelessWidget {
   // ignore: prefer_typing_uninitialized_variables
-  final themeProvider;
+  final ThemeProvider themeProvider;
   // ignore: prefer_const_constructors_in_immutables
-  Dashboard({super.key, required this.themeProvider});
+  TransactionDashboard({super.key, required this.themeProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +80,7 @@ class Dashboard extends StatelessWidget {
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (value) {
-          if (value == 1) {
-          } else if (value == 2) {
-          } else if (value == 3) {
-          } else {}
+          RouteDefinition.route(context, value);
         },
         destinations: [
           NavigationDestination(
