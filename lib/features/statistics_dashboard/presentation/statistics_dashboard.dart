@@ -27,10 +27,38 @@ class StatisticsDashboard extends StatelessWidget {
                   Expanded(
                     child: LinearProgressIndicator(value: 0.66, minHeight: 25),
                   ),
-                  Image.asset("assets/sparschwein.png", cacheWidth: 48),
+                  Image.asset("assets/medal.png", height: 64),
                 ],
               ),
-              SizedBox(height: 60),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 96,
+                    height: 48,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Image.asset("assets/medal.png", height: 48),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 18,
+                          child: Image.asset("assets/medal.png", height: 48),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 36,
+                          child: Image.asset("assets/medal.png", height: 48),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -52,14 +80,15 @@ class StatisticsDashboard extends StatelessWidget {
                 height: 450,
                 child: BarChart(
                   BarChartData(
+                    maxY: 120,
                     barGroups: [
                       BarChartGroupData(
                         x: 1,
-                        barRods: [BarChartRodData(toY: 7)],
+                        barRods: [BarChartRodData(toY: 60)],
                       ),
                       BarChartGroupData(
                         x: 3,
-                        barRods: [BarChartRodData(toY: 7)],
+                        barRods: [BarChartRodData(toY: 100)],
                       ),
                     ],
                   ),
