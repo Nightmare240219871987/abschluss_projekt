@@ -1,13 +1,12 @@
-import 'package:abschluss_projekt/common/classes/route_definition.dart';
-import 'package:abschluss_projekt/common/widgets/appbar.dart';
+import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
+import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class AddTransaction extends StatelessWidget {
   late BuildContext context;
-  // ignore: prefer_typing_uninitialized_variables
   final ThemeProvider themeProvider;
   AddTransaction({super.key, required this.themeProvider});
 
@@ -15,7 +14,7 @@ class AddTransaction extends StatelessWidget {
   Widget build(BuildContext context) {
     this.context = context;
     return Scaffold(
-      appBar: MyAppBar(themeProvider: themeProvider),
+      appBar: MyAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -110,29 +109,7 @@ class AddTransaction extends StatelessWidget {
 
         child: Icon(Icons.add),
       ),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (value) {
-          RouteDefinition.route(context, value);
-        },
-        destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.home, size: 38),
-            label: "Startseite",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.area_chart_outlined, size: 38),
-            label: "Statistik",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.check_circle_outlined, size: 38),
-            label: "Erfolge",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined, size: 38),
-            label: "Einstellungen",
-          ),
-        ],
-      ),
+      bottomNavigationBar: MyNavigationBar(),
     );
   }
 

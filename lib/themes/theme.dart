@@ -48,7 +48,10 @@ ThemeData light = ThemeData(
       bottomRight: Radius.circular(8),
     ),
   ),
-  listTileTheme: ListTileThemeData(minLeadingWidth: 125),
+  listTileTheme: ListTileThemeData(
+    minLeadingWidth: 125,
+    leadingAndTrailingTextStyle: TextStyle(fontSize: 18, color: Colors.black),
+  ),
   cardTheme: CardThemeData(color: const Color(0xFF392FFF), elevation: 4),
   brightness: Brightness.light,
 );
@@ -94,7 +97,10 @@ ThemeData dark = ThemeData(
     ),
   ),
 
-  listTileTheme: ListTileThemeData(minLeadingWidth: 125),
+  listTileTheme: ListTileThemeData(
+    minLeadingWidth: 125,
+    leadingAndTrailingTextStyle: TextStyle(fontSize: 18, color: Colors.white),
+  ),
   brightness: Brightness.dark,
 );
 

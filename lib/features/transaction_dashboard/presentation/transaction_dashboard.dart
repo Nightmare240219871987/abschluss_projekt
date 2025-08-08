@@ -1,20 +1,19 @@
-import 'package:abschluss_projekt/common/classes/route_definition.dart';
-import 'package:abschluss_projekt/common/widgets/appbar.dart';
+import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
+import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/features/transaction_dashboard/domain/blue_card.dart';
-import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:abschluss_projekt/data/my_pics.dart';
 
 class TransactionDashboard extends StatelessWidget {
   // ignore: prefer_typing_uninitialized_variables
-  final ThemeProvider themeProvider;
+
   // ignore: prefer_const_constructors_in_immutables
-  TransactionDashboard({super.key, required this.themeProvider});
+  TransactionDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(themeProvider: themeProvider),
+      appBar: MyAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -78,29 +77,7 @@ class TransactionDashboard extends StatelessWidget {
         },
         child: Icon(Icons.add),
       ),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (value) {
-          RouteDefinition.route(context, value);
-        },
-        destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.home, size: 38),
-            label: "Startseite",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.area_chart_outlined, size: 38),
-            label: "Statistik",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.check_circle_outlined, size: 38),
-            label: "Erfolge",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined, size: 38),
-            label: "Einstellungen",
-          ),
-        ],
-      ),
+      bottomNavigationBar: MyNavigationBar(),
     );
   }
 }

@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 class AppHome extends StatelessWidget {
   const AppHome({super.key});
   // TODO: QR Code Scanner Seite erstellen
-  // TODO: Theme erstellen
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -18,16 +17,13 @@ class AppHome extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: themeProvider.themeData,
       routes: {
-        "/transactionDashboard": (context) =>
-            TransactionDashboard(themeProvider: themeProvider),
+        "/transactionDashboard": (context) => TransactionDashboard(),
         "/addPage": (context) => AddTransaction(themeProvider: themeProvider),
-        "/statisticsDashboard": (context) =>
-            StatisticsDashboard(themeProvider: themeProvider),
-        "/archivements": (context) =>
-            Archivements(themeProvider: themeProvider),
+        "/statisticsDashboard": (context) => StatisticsDashboard(),
+        "/archivements": (context) => Archivements(),
         "/settings": (context) => Settings(themeProvider: themeProvider),
       },
-      home: TransactionDashboard(themeProvider: themeProvider),
+      home: TransactionDashboard(),
     );
   }
 }
