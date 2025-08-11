@@ -76,9 +76,16 @@ class StatisticsDashboard extends StatelessWidget {
                 height: 450,
                 child: BarChart(
                   BarChartData(
+                    titlesData: FlTitlesData(
+                      bottomTitles: AxisTitles(sideTitles: SideTitles()
+                        
+                        
+                      ),
+                    ),
                     maxY: 120,
                     barGroups: [
                       BarChartGroupData(
+
                         x: 1,
                         barRods: [BarChartRodData(toY: 60)],
                       ),
