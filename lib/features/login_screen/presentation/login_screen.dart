@@ -90,6 +90,15 @@ class LoginScreen extends StatelessWidget {
                               context,
                               "/transactionDashboard",
                             );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  "Fehler: Login war Falsch!",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
                           }
                         },
                         child: SizedBox(
