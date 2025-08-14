@@ -4,18 +4,12 @@ Global Data :
 - outgoing -> no need to save in database
 - saved -> no deen to save in database
 
-Database:
-- incomingCollection -> in database
-- outgoingCollection -> in database
-- savedCollection -> in database
+Database: 
+- transactions -> im User
 
-Gaminfication:
-- level -> in database
+Gaminfication: -> im User
 - currentSaved -> in database
-- currentNeededSaved -> in database
 - thresholdToNextMedal -> in database
-- currentMedal -> in database
-- Archivement-Class -> in database
 
 Settings:
 - Darkmode -> in database

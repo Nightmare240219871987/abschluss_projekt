@@ -1,7 +1,8 @@
 import 'transaction.dart';
 import 'database_repository.dart';
 import 'user.dart';
-
+// TODO: Methoden anpassen und ausarbeiten
+// TODO: Datensatz hier drin halten
 class MockDatabaseRepository implements DatabaseRepository {
   @override
   void createTransaction(Transaction transaction, User user) {

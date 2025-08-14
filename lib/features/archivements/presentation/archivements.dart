@@ -6,15 +6,9 @@ import 'package:flutter/material.dart';
 class Archivements extends StatelessWidget {
   List<Image> medals = List<Image>.generate(
     15,
-    (value) => Image.asset(
-      "assets/medal.png",
-      height: 48,
-      filterQuality: FilterQuality.high,
-    ),
+    (value) => Image.asset("assets/misc/medal.png", height: 48),
   );
-
-  // ignore: prefer_typing_uninitialized_variables
-
+  
   Archivements({super.key});
 
   @override

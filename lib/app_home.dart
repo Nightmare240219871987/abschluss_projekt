@@ -1,5 +1,6 @@
 import 'package:abschluss_projekt/features/add_transaction/presentation/add_transaction.dart';
 import 'package:abschluss_projekt/features/archivements/presentation/archivements.dart';
+import 'package:abschluss_projekt/features/login_screen/presentation/login_screen.dart';
 import 'package:abschluss_projekt/features/settings/presentation/settings.dart';
 import 'package:abschluss_projekt/features/statistics_dashboard/presentation/statistics_dashboard.dart';
 import 'package:abschluss_projekt/features/transaction_dashboard/presentation/transaction_dashboard.dart';
@@ -22,8 +23,9 @@ class AppHome extends StatelessWidget {
         "/statisticsDashboard": (context) => StatisticsDashboard(),
         "/archivements": (context) => Archivements(),
         "/settings": (context) => Settings(themeProvider: themeProvider),
+        "/login": (context) => LoginScreen(),
       },
-      home: TransactionDashboard(),
+      home: LoginScreen(),
     );
   }
 }

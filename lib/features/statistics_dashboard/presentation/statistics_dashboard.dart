@@ -23,7 +23,7 @@ class StatisticsDashboard extends StatelessWidget {
                   Expanded(
                     child: LinearProgressIndicator(value: 0.66, minHeight: 25),
                   ),
-                  Image.asset("assets/medal.png", height: 64),
+                  Image.asset("assets/misc/medal.png", height: 64),
                 ],
               ),
               Row(
@@ -37,17 +37,17 @@ class StatisticsDashboard extends StatelessWidget {
                         Positioned(
                           right: 0,
                           top: 0,
-                          child: Image.asset("assets/medal.png", height: 48),
+                          child: Image.asset("assets/misc/medal.png", height: 48),
                         ),
                         Positioned(
                           top: 0,
                           right: 18,
-                          child: Image.asset("assets/medal.png", height: 48),
+                          child: Image.asset("assets/misc/medal.png", height: 48),
                         ),
                         Positioned(
                           top: 0,
                           right: 36,
-                          child: Image.asset("assets/medal.png", height: 48),
+                          child: Image.asset("assets/misc/medal.png", height: 48),
                         ),
                       ],
                     ),
@@ -74,12 +74,13 @@ class StatisticsDashboard extends StatelessWidget {
               ),
               SizedBox(
                 height: 450,
+                //TODO: Monate in Kurzform als Balken beschriftung machen
                 child: BarChart(
                   BarChartData(
                     titlesData: FlTitlesData(
                       bottomTitles: AxisTitles(sideTitles: SideTitles()
                         
-                        
+                        //TODO: Datensätze verarbeiten aus db_repo
                       ),
                     ),
                     maxY: 120,

@@ -24,20 +24,22 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
+    - assets/icons/
+    - assets/misc/
+    - assets/medaillen/
 
 flutter_native_splash:
   color: "#392FFF"
   android_12:
     icon_background_color: "#392FFF"
-    image: "assets/logo_icon.png"
+    image: "assets/logo/logo_icon.png"
   android: true
   ios: true
   web: true
 
 flutter_launcher_icons:
-  image_path: "assets/adaptive_logo.png"
+  image_path: "assets/logo/adaptive_logo.png"
   adaptive_icon_padding: false
-  adaptive_icon_foreground: "assets/adaptive_logo.png"
+  adaptive_icon_foreground: "assets/logo/adaptive_logo.png"
   adaptive_icon_background: "#392FFF"
   android: "launcher_icon"

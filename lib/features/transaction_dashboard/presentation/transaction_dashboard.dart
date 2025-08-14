@@ -2,7 +2,7 @@ import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/features/transaction_dashboard/domain/blue_card.dart';
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/data/my_pics.dart';
+import 'package:abschluss_projekt/data/my_assets.dart';
 
 class TransactionDashboard extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -22,7 +22,7 @@ class TransactionDashboard extends StatelessWidget {
               BlueCard(
                 title: "Verfügbar",
                 ammount: "1200,00€",
-                image: MyPics.available,
+                image: Misc.available,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
                   color: Colors.green,
@@ -32,7 +32,7 @@ class TransactionDashboard extends StatelessWidget {
               BlueCard(
                 title: "Einnahmen",
                 ammount: "2000,00€",
-                image: MyPics.incoming,
+                image: Misc.incoming,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
                   color: Colors.green,
@@ -42,7 +42,7 @@ class TransactionDashboard extends StatelessWidget {
               BlueCard(
                 title: "Ausgaben",
                 ammount: "800,00€",
-                image: MyPics.outgoing,
+                image: Misc.outgoing,
                 titleColor: Color.fromARGB(255, 241, 103, 93),
                 icon: Icon(
                   Icons.arrow_downward_rounded,
@@ -53,7 +53,7 @@ class TransactionDashboard extends StatelessWidget {
               BlueCard(
                 title: "Sparen",
                 ammount: "365,50€",
-                image: MyPics.save,
+                image: Misc.save,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
                   color: Colors.green,
