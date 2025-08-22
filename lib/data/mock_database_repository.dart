@@ -1,6 +1,7 @@
-import 'transaction.dart';
+import '../common/classes/transaction.dart';
 import 'database_repository.dart';
-import 'user.dart';
+import '../common/classes/user.dart';
+
 // TODO: Methoden anpassen und ausarbeiten
 // TODO: Datensatz hier drin halten
 class MockDatabaseRepository implements DatabaseRepository {

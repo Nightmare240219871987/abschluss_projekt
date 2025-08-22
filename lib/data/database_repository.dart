@@ -1,5 +1,5 @@
-import 'user.dart';
-import 'transaction.dart';
+import '../common/classes/user.dart';
+import '../common/classes/transaction.dart';
 
 abstract class DatabaseRepository {
   // CREATE

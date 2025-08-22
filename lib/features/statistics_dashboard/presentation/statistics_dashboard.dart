@@ -37,17 +37,26 @@ class StatisticsDashboard extends StatelessWidget {
                         Positioned(
                           right: 0,
                           top: 0,
-                          child: Image.asset("assets/misc/medal.png", height: 48),
+                          child: Image.asset(
+                            "assets/misc/medal.png",
+                            height: 48,
+                          ),
                         ),
                         Positioned(
                           top: 0,
                           right: 18,
-                          child: Image.asset("assets/misc/medal.png", height: 48),
+                          child: Image.asset(
+                            "assets/misc/medal.png",
+                            height: 48,
+                          ),
                         ),
                         Positioned(
                           top: 0,
                           right: 36,
-                          child: Image.asset("assets/misc/medal.png", height: 48),
+                          child: Image.asset(
+                            "assets/misc/medal.png",
+                            height: 48,
+                          ),
                         ),
                       ],
                     ),
@@ -78,15 +87,15 @@ class StatisticsDashboard extends StatelessWidget {
                 child: BarChart(
                   BarChartData(
                     titlesData: FlTitlesData(
-                      bottomTitles: AxisTitles(sideTitles: SideTitles()
-                        
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(),
+
                         //TODO: Datensätze verarbeiten aus db_repo
                       ),
                     ),
                     maxY: 120,
                     barGroups: [
                       BarChartGroupData(
-
                         x: 1,
                         barRods: [BarChartRodData(toY: 60)],
                       ),

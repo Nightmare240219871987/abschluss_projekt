@@ -81,9 +81,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          // TODO: implement login machanic
-                          print(_usernameController.text);
-                          print(_passwordController.text);
                           if (_usernameController.text == "Nightmare2402" &&
                               _passwordController.text == "Password") {
                             Navigator.pushReplacementNamed(
