@@ -1,12 +1,14 @@
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
+import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/features/transaction_dashboard/domain/blue_card.dart';
 import 'package:flutter/material.dart';
 import 'package:abschluss_projekt/data/my_assets.dart';
 
 class TransactionDashboard extends StatelessWidget {
+  final DatabaseRepository db;
   // ignore: prefer_const_constructors_in_immutables
-  TransactionDashboard({super.key});
+  TransactionDashboard({super.key, required this.db});
 
   @override
   Widget build(BuildContext context) {

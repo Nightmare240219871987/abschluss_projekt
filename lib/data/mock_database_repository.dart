@@ -3,10 +3,36 @@ import 'database_repository.dart';
 import '../common/classes/user.dart';
 
 // TODO: Methoden anpassen und ausarbeiten
-// TODO: Datensatz hier drin halten
 class MockDatabaseRepository implements DatabaseRepository {
+  List<User> users = [
+    User(
+      username: "Nightmare2402",
+      password: "@42Illuminati",
+      email: "Marcusschmidt2402@Hotmail.de",
+    ),
+  ];
+
+  late User currentUser;
+
   @override
-  void createTransaction(Transaction transaction, User user) {
+  void initialize() {
+    users[0].transactions.add(
+      Transaction(
+        title: "Miete",
+        description: "Mietkosten",
+        category: "Ausgabe",
+        price: 800,
+        transactionType: TransactionType.ausgabe,
+        continuous: true,
+        date: DateTime.now(),
+        receipient: "Clara",
+        sender: "Marcus",
+      ),
+    );
+  }
+
+  @override
+  void createTransaction(Transaction transaction) {
     // TODO: implement createTransaction
   }
 
@@ -32,9 +58,11 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  User readUser(String id) {
-    // TODO: implement readUser
-    throw UnimplementedError();
+  User? readUser(String username) {
+    for (User u in users) {
+      if (u.username == username) return u;
+    }
+    return null;
   }
 
   @override
@@ -47,5 +75,10 @@ class MockDatabaseRepository implements DatabaseRepository {
   User updateUser(String id, User user) {
     // TODO: implement updateUser
     throw UnimplementedError();
+  }
+
+  @override
+  void setCurrentUser(User user) {
+    currentUser = user;
   }
 }

@@ -5,7 +5,7 @@ class User {
   String email;
   String username;
   String password;
-  Archivements archivements = Archivements.getInstance();
+  Archivements archivements = Archivements();
   double currentSaved;
   double currentThreshholdNextMedal;
   List<Transaction> transactions = [];

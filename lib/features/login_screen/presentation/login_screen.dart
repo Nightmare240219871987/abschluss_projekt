@@ -1,10 +1,22 @@
+import 'package:abschluss_projekt/common/classes/user.dart';
+import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  final DatabaseRepository db;
+
+  // ignore: prefer_const_constructors_in_immutables
+  LoginScreen({super.key, required this.db});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  LoginScreen({super.key});
+  bool isCorrect = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,91 +32,127 @@ class LoginScreen extends StatelessWidget {
               color: Theme.of(context).scaffoldBackgroundColor,
               child: SizedBox(
                 width: double.infinity,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    spacing: 8,
+                    children: [
+                      Text(
                         "Login",
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 38,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 8.0,
-                      ),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          "Username",
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: TextField(controller: _usernameController),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 8.0,
-                      ),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          "Password",
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 16.0,
-                        right: 16.0,
-                        bottom: 16,
-                      ),
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 16.0,
-                        right: 16.0,
-                        bottom: 16.0,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_usernameController.text == "Nightmare2402" &&
-                              _passwordController.text == "Password") {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              "/transactionDashboard",
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  "Fehler: Login war Falsch!",
-                                  textAlign: TextAlign.center,
-                                ),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          spacing: 8,
+                          children: [
+                            TextFormField(
+                              onChanged: (value) =>
+                                  _formKey.currentState!.validate(),
+                              controller: _usernameController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Username",
+                                hintText: "Geben sie den Benutzernamen ein.",
                               ),
-                            );
-                          }
-                        },
+                              validator: (value) {
+                                if (value != null && value.isEmpty) {
+                                  return "Dieses Feld darf nicht leer sein.";
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              onChanged: (value) =>
+                                  _formKey.currentState!.validate(),
+                              controller: _passwordController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Password",
+                                hintText: "Geben Sie hier Ihr Passwort ein.",
+                              ),
+                              obscureText: true,
+                              validator: (value) {
+                                isCorrect = false;
+                                RegExp reExtra = RegExp(r"[!@#$%^&*()]");
+                                RegExp reUpperCase = RegExp(r"[A-Z]");
+                                RegExp reLowerCase = RegExp(r"[a-z]");
+                                RegExp reDigits = RegExp(r"\d");
+                                if (value == null) {
+                                  return "das Password darf nicht leer sein.";
+                                } else {
+                                  if (value.length <= 7) {
+                                    return "Das Passwort muss mindestens 8 zeichen haben.";
+                                  }
+                                  if (!reExtra.hasMatch(value)) {
+                                    return "Das Passwort muss Sonderzeichen enthalten";
+                                  }
+                                  if (!reUpperCase.hasMatch(value)) {
+                                    return "Das Passwort muss große Buchstaben enthalten.";
+                                  }
+                                  if (!reLowerCase.hasMatch(value)) {
+                                    return "Das Passwort muss kleine Buchstaben enthalten.";
+                                  }
+                                  if (!reDigits.hasMatch(value)) {
+                                    return "Das Passwort muss Zahlen enthalten.";
+                                  }
+                                }
+                                setState(() {
+                                  isCorrect = true;
+                                });
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      ElevatedButton(
+                        onPressed: isCorrect
+                            ? () {
+                                User? user = widget.db.readUser(
+                                  _usernameController.text,
+                                );
+                                if (user != null) {
+                                  if (user.password ==
+                                      _passwordController.text) {
+                                    Navigator.of(
+                                      context,
+                                    ).pushReplacementNamed("/dashboard");
+                                  } else {
+                                    _usernameController.clear();
+                                    _passwordController.clear();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Benutzername oder Passwort falsch.",
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  _usernameController.clear();
+                                  _passwordController.clear();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "Benutzername oder Passwort falsch.",
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }
+                            : null,
                         child: SizedBox(
                           width: double.infinity,
                           child: Text("Login", textAlign: TextAlign.center),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

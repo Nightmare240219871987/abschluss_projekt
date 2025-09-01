@@ -2,12 +2,13 @@ import '../common/classes/user.dart';
 import '../common/classes/transaction.dart';
 
 abstract class DatabaseRepository {
+  void setCurrentUser(User user);
   // CREATE
   void createUser(User user);
-  void createTransaction(Transaction transaction, User user);
-
+  void createTransaction(Transaction transaction);
+  void initialize();
   // READ
-  User readUser(String id);
+  User? readUser(String username);
   Transaction readTransaction(String id);
 
   // UPDATE

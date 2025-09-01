@@ -1,3 +1,4 @@
+import 'package:abschluss_projekt/data/shared_prefs.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
@@ -25,6 +26,7 @@ class _SettingsState extends State<Settings> {
               trailing: Switch(
                 value: widget.themeProvider.isDarkMode,
                 onChanged: (value) {
+                  saveDarkmode(value);
                   setState(() {
                     widget.themeProvider.setDarkTheme(value);
                   });
