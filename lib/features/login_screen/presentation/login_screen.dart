@@ -117,6 +117,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _usernameController.text,
                                 );
                                 if (user != null) {
+                                  widget.db.initialize(user);
+                                }
+
+                                if (user != null) {
                                   if (user.password ==
                                       _passwordController.text) {
                                     Navigator.of(

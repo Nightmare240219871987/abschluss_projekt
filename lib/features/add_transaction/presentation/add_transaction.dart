@@ -1,14 +1,45 @@
+import 'package:abschluss_projekt/common/classes/transaction.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
+import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class AddTransaction extends StatelessWidget {
-  late BuildContext context;
+class AddTransaction extends StatefulWidget {
+  final DatabaseRepository db;
   final ThemeProvider themeProvider;
-  AddTransaction({super.key, required this.themeProvider});
+  const AddTransaction({
+    super.key,
+    required this.themeProvider,
+    required this.db,
+  });
+
+  @override
+  State<AddTransaction> createState() => _AddTransactionState();
+}
+
+class _AddTransactionState extends State<AddTransaction> {
+  final TextEditingController _titleCtrl = TextEditingController();
+  final TextEditingController _descriptionCtrl = TextEditingController();
+  final TextEditingController _amountCtrl = TextEditingController();
+  final TextEditingController _senderCtrl = TextEditingController();
+  final TextEditingController _receipientCtrl = TextEditingController();
+
+  List<String> items = ["Ausgaben", "Einnahmen", "Erspartes"];
+  @override
+  late BuildContext context;
+  bool isContinue = false;
+  DateTime? creationTime;
+
+  late String currentChoice;
+
+  @override
+  void initState() {
+    super.initState();
+    currentChoice = items[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,109 +48,183 @@ class AddTransaction extends StatelessWidget {
       appBar: MyAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          spacing: 40,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 40,
-              children: [
-                ColorizedIconButton(
-                  icon: Icon(Icons.input_outlined),
-                  onPressed: () {},
-                ),
-                ColorizedIconButton(
-                  icon: Icon(Icons.output_outlined),
-                  onPressed: () {},
-                ),
-                ColorizedIconButton(
-                  icon: Icon(Icons.euro_outlined),
+        child: SingleChildScrollView(
+          child: Column(
+            spacing: 40,
+            children: [
+              SizedBox(height: 3),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: Color(0xFF392FFF)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFF392FFF),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            value: currentChoice,
+                            items: items
+                                .map<DropdownMenuItem>(
+                                  (String item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Center(
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                currentChoice = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
 
-                  onPressed: () {},
-                ),
-                ColorizedIconButton(
-                  icon: Icon(Icons.qr_code_2_outlined),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            TextField(
-              decoration: InputDecoration(
-                label: Text("Titel der Transaktion"),
-                labelStyle: TextStyle(
-                  color: themeProvider.isDarkMode
-                      ? Color(0xFFeeeeee)
-                      : Color(0xFF111111),
+                  ColorizedIconButton(
+                    icon: Icon(Icons.qr_code_2_outlined),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Titel",
+                  labelStyle: TextStyle(
+                    color: widget.themeProvider.isDarkMode
+                        ? Color(0xFFeeeeee)
+                        : Color(0xFF111111),
+                  ),
+                  hintText: "Titel der Transaktion",
                 ),
               ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                label: Text("Beschreibung der Transaktion"),
-                labelStyle: TextStyle(
-                  color: themeProvider.isDarkMode
-                      ? Color(0xFFeeeeee)
-                      : Color(0xFF111111),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Beschreibung",
+                  labelStyle: TextStyle(
+                    color: widget.themeProvider.isDarkMode
+                        ? Color(0xFFeeeeee)
+                        : Color(0xFF111111),
+                  ),
+                  hintText: "Beschreibung der Transaktion",
                 ),
               ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                label: Text("Betrag der Transaktion"),
-                labelStyle: TextStyle(
-                  color: themeProvider.isDarkMode
-                      ? Color(0xFFeeeeee)
-                      : Color(0xFF111111),
+              TextField(
+                controller: _amountCtrl,
+                decoration: InputDecoration(
+                  labelText: "Betrag",
+                  labelStyle: TextStyle(
+                    color: widget.themeProvider.isDarkMode
+                        ? Color(0xFFeeeeee)
+                        : Color(0xFF111111),
+                  ),
+                  hintText: "Betrag der Transaktion",
                 ),
               ),
-            ),
-
-            Row(
-              children: [
-                Checkbox(value: false, onChanged: onContinuousOutput),
-                Text("Regelmäßige Ausgaben", style: TextStyle(fontSize: 18)),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: onDatePressed,
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Row(
-                  spacing: 4,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.calendar_month_outlined, size: 24),
-                    Text("Datum", style: TextStyle(fontSize: 24)),
-                  ],
+              TextField(
+                decoration: InputDecoration(
+                  label: Text("Sender"),
+                  labelStyle: TextStyle(
+                    color: widget.themeProvider.isDarkMode
+                        ? Color(0xFFeeeeee)
+                        : Color(0xFF111111),
+                  ),
                 ),
               ),
-            ),
-          ],
+              TextField(
+                decoration: InputDecoration(
+                  label: Text("Empfänger"),
+                  labelStyle: TextStyle(
+                    color: widget.themeProvider.isDarkMode
+                        ? Color(0xFFeeeeee)
+                        : Color(0xFF111111),
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  Checkbox(value: isContinue, onChanged: onContinuousOutput),
+                  Text("Regelmäßige Ausgaben", style: TextStyle(fontSize: 18)),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: onDatePressed,
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Row(
+                    spacing: 4,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.calendar_month_outlined, size: 24),
+                      Text("Datum", style: TextStyle(fontSize: 24)),
+                    ],
+                  ),
+                ),
+              ),
+              Text(creationTime != null ? creationTime.toString() : ""),
+              SizedBox(height: 50),
+            ],
+          ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(48),
-        ),
         elevation: 8,
         onPressed: () {
-          //Navigator.pushNamed(context, "/addPage");
+          TransactionType type;
+          if (currentChoice == "Ausgaben") {
+            type = TransactionType.outgoing;
+          } else if (currentChoice == "Einnahmen") {
+            type = TransactionType.incoming;
+          } else if (currentChoice == "Erspartes") {
+            type = TransactionType.saving;
+          } else {
+            type = TransactionType.outgoing;
+          }
+          widget.db.createTransaction(
+            Transaction(
+              title: _titleCtrl.text,
+              description: _descriptionCtrl.text,
+              price: double.tryParse(_amountCtrl.text) ?? 0,
+              transactionType: type,
+              continuous: isContinue,
+              date: DateTime.now(),
+              receipient: _receipientCtrl.text,
+              sender: _senderCtrl.text,
+            ),
+          );
+          Navigator.of(context).pop();
         },
-
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: MyNavigationBar(),
     );
   }
 
-  void onContinuousOutput(bool? value) {}
+  void onContinuousOutput(bool? value) {
+    setState(() {
+      isContinue = value!;
+    });
+  }
 
   void onDatePressed() async {
-    await showDatePicker(
+    creationTime = await showDatePicker(
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime(2999),
     );
+    setState(() {});
   }
 }

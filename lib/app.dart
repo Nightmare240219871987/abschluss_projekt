@@ -5,15 +5,15 @@ import 'package:abschluss_projekt/features/archivements/presentation/archivement
 import 'package:abschluss_projekt/features/login_screen/presentation/login_screen.dart';
 import 'package:abschluss_projekt/features/settings/presentation/settings.dart';
 import 'package:abschluss_projekt/features/statistics_dashboard/presentation/statistics_dashboard.dart';
-import 'package:abschluss_projekt/features/transaction_dashboard/presentation/transaction_dashboard.dart';
+import 'package:abschluss_projekt/features/dashboard/presentation/dashboard.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AppHome extends StatelessWidget {
+class App extends StatelessWidget {
   final DatabaseRepository db;
-  const AppHome({super.key, required this.db});
-  // TODO: QR Code Scanner Seite erstellen
+  const App({super.key, required this.db});
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -24,8 +24,9 @@ class AppHome extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: themeProvider.themeData,
       routes: {
-        "/dashboard": (context) => TransactionDashboard(db: db),
-        "/addPage": (context) => AddTransaction(themeProvider: themeProvider),
+        "/dashboard": (context) => Dashboard(db: db),
+        "/addPage": (context) =>
+            AddTransaction(themeProvider: themeProvider, db: db),
         "/statistics": (context) => StatisticsDashboard(),
         "/archivements": (context) => Archivements(),
         "/settings": (context) => Settings(themeProvider: themeProvider),

@@ -1,17 +1,26 @@
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
-import 'package:abschluss_projekt/features/transaction_dashboard/domain/blue_card.dart';
+import 'package:abschluss_projekt/features/dashboard/domain/blue_card.dart';
 import 'package:flutter/material.dart';
 import 'package:abschluss_projekt/data/my_assets.dart';
 
-class TransactionDashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   final DatabaseRepository db;
   // ignore: prefer_const_constructors_in_immutables
-  TransactionDashboard({super.key, required this.db});
+  Dashboard({super.key, required this.db});
 
   @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  @override
   Widget build(BuildContext context) {
+    String available = widget.db.getAvailable().toStringAsFixed(2);
+    String incoming = widget.db.getSumOfIncoming().toStringAsFixed(2);
+    String outgoing = widget.db.getSumOfOutgoing().toStringAsFixed(2);
+    String saving = widget.db.getSumOfSaved().toStringAsFixed(2);
     return Scaffold(
       appBar: MyAppBar(),
       body: Padding(
@@ -23,7 +32,7 @@ class TransactionDashboard extends StatelessWidget {
             children: [
               BlueCard(
                 title: "Verfügbar",
-                ammount: "1200,00€",
+                ammount: "$available€",
                 image: Misc.available,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
@@ -33,7 +42,7 @@ class TransactionDashboard extends StatelessWidget {
               ),
               BlueCard(
                 title: "Einnahmen",
-                ammount: "2000,00€",
+                ammount: "$incoming€",
                 image: Misc.incoming,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
@@ -43,7 +52,7 @@ class TransactionDashboard extends StatelessWidget {
               ),
               BlueCard(
                 title: "Ausgaben",
-                ammount: "800,00€",
+                ammount: "$outgoing€",
                 image: Misc.outgoing,
                 titleColor: Color.fromARGB(255, 241, 103, 93),
                 icon: Icon(
@@ -54,7 +63,7 @@ class TransactionDashboard extends StatelessWidget {
               ),
               BlueCard(
                 title: "Sparen",
-                ammount: "365,50€",
+                ammount: "$saving€",
                 image: Misc.save,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
@@ -66,14 +75,11 @@ class TransactionDashboard extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(48),
-        ),
         elevation: 8,
-        onPressed: () {
-          Navigator.pushNamed(context, "/addPage");
+        onPressed: () async {
+          await Navigator.pushNamed(context, "/addPage");
+          setState(() {});
         },
         child: Icon(Icons.add),
       ),

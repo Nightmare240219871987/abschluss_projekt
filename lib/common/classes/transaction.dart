@@ -1,9 +1,8 @@
-enum TransactionType { ausgabe, einnahme, ersparnis }
+enum TransactionType { outgoing, incoming, saving }
 
 class Transaction {
   String title;
   String description;
-  String category;
   double price;
   TransactionType transactionType;
   bool continuous;
@@ -14,7 +13,6 @@ class Transaction {
   Transaction({
     required this.title,
     required this.description,
-    required this.category,
     required this.price,
     required this.transactionType,
     required this.continuous,
