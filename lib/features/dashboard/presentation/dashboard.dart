@@ -17,10 +17,18 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    String available = widget.db.getAvailable().toStringAsFixed(2);
-    String incoming = widget.db.getSumOfIncoming().toStringAsFixed(2);
-    String outgoing = widget.db.getSumOfOutgoing().toStringAsFixed(2);
-    String saving = widget.db.getSumOfSaved().toStringAsFixed(2);
+    String available = widget.db
+        .getAvailable(DateTime.now().month)
+        .toStringAsFixed(2);
+    String incoming = widget.db
+        .getSumOfIncoming(DateTime.now().month)
+        .toStringAsFixed(2);
+    String outgoing = widget.db
+        .getSumOfOutgoing(DateTime.now().month)
+        .toStringAsFixed(2);
+    String saving = widget.db
+        .getSumOfSaved(DateTime.now().month)
+        .toStringAsFixed(2);
     return Scaffold(
       appBar: MyAppBar(),
       body: Padding(

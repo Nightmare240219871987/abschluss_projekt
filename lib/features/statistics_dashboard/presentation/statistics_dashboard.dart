@@ -1,11 +1,32 @@
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/features/statistics_dashboard/domain/pages/incoming.dart';
+import 'package:abschluss_projekt/features/statistics_dashboard/domain/pages/outgoing.dart';
+import 'package:abschluss_projekt/features/statistics_dashboard/domain/pages/saving.dart';
 import 'package:flutter/material.dart';
 
-class StatisticsDashboard extends StatelessWidget {
-  const StatisticsDashboard({super.key});
+// TODO: Continuous Mechanics implementieren
+class StatisticsDashboard extends StatefulWidget {
+  final DatabaseRepository db;
+  const StatisticsDashboard({super.key, required this.db});
+
+  @override
+  State<StatisticsDashboard> createState() => _StatisticsDashboardState();
+}
+
+class _StatisticsDashboardState extends State<StatisticsDashboard> {
+  final List<Widget> _statistics = [];
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _statistics.add(Outgoing(db: widget.db));
+    _statistics.add(Incoming(db: widget.db));
+    _statistics.add(Saving(db: widget.db));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,92 +90,31 @@ class StatisticsDashboard extends StatelessWidget {
                 children: [
                   ColorizedIconButton(
                     icon: Icon(Icons.input_outlined),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _currentIndex = 0;
+                      });
+                    },
                   ),
                   ColorizedIconButton(
                     icon: Icon(Icons.output_outlined),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _currentIndex = 1;
+                      });
+                    },
                   ),
                   ColorizedIconButton(
                     icon: Icon(Icons.euro_outlined),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _currentIndex = 2;
+                      });
+                    },
                   ),
                 ],
               ),
-              SizedBox(
-                height: 450,
-                //TODO: Monate in Kurzform als Balken beschriftung machen
-                child: BarChart(
-                  BarChartData(
-                    titlesData: FlTitlesData(
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(),
-
-                        //TODO: Datensätze verarbeiten aus db_repo
-                      ),
-                    ),
-                    maxY: 120,
-                    barGroups: [
-                      BarChartGroupData(
-                        x: 1,
-                        barRods: [BarChartRodData(toY: 60)],
-                      ),
-                      BarChartGroupData(
-                        x: 3,
-                        barRods: [BarChartRodData(toY: 100)],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Text("Januar:"),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Text("Februar:"),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Text("März:"),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Text("April:"),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                    Text("Ausgabe 1: 10€"),
-                  ],
-                ),
-              ),
+              _statistics[_currentIndex],
             ],
           ),
         ),

@@ -3,10 +3,11 @@ import '../common/classes/transaction.dart';
 
 abstract class DatabaseRepository {
   // Programm functionality
-  double getSumOfOutgoing();
-  double getSumOfIncoming();
-  double getSumOfSaved();
-  double getAvailable();
+  double getSumOfOutgoing(int month);
+  double getSumOfIncoming(int month);
+  double getSumOfSaved(int month);
+  double getAvailable(int month);
+  List<Transaction> getAllTransactions();
 
   // CREATE
   void createUser(User user);

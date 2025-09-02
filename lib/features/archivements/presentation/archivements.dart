@@ -2,7 +2,6 @@ import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-// TODO: Die medaillen mit chatgpt erstellen und einpflegen.
 // ignore: must_be_immutable
 class Archivements extends StatelessWidget {
   List<Image> medals = [
@@ -19,8 +18,8 @@ class Archivements extends StatelessWidget {
     Image.asset("assets/medaillen/m50000.png"),
     Image.asset("assets/medaillen/m100000.png"),
     Image.asset("assets/medaillen/m200000.png"),
-    Image.asset("assets/misc/medal.png"),
-    Image.asset("assets/misc/medal.png"),
+    Image.asset("assets/medaillen/m500000.png"),
+    Image.asset("assets/medaillen/m1000000.png"),
   ];
 
   Archivements({super.key});

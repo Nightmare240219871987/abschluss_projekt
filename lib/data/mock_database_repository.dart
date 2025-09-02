@@ -2,7 +2,6 @@ import '../common/classes/transaction.dart';
 import 'database_repository.dart';
 import '../common/classes/user.dart';
 
-// TODO: Methoden anpassen und ausarbeiten
 class MockDatabaseRepository implements DatabaseRepository {
   List<User> users = [
     User(
@@ -150,15 +149,16 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  double getAvailable() {
-    return getSumOfIncoming() - getSumOfOutgoing();
+  double getAvailable(int month) {
+    return getSumOfIncoming(month) - getSumOfOutgoing(month);
   }
 
   @override
-  double getSumOfIncoming() {
+  double getSumOfIncoming(int month) {
     double sumOfIncoming = 0;
     for (Transaction t in _currentUser!.transactions) {
-      if (t.transactionType == TransactionType.incoming) {
+      if (t.transactionType == TransactionType.incoming &&
+          t.date.month == month) {
         sumOfIncoming += t.price;
       }
     }
@@ -166,10 +166,11 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  double getSumOfOutgoing() {
+  double getSumOfOutgoing(int month) {
     double sumOfOutgoing = 0;
     for (Transaction t in _currentUser!.transactions) {
-      if (t.transactionType == TransactionType.outgoing) {
+      if (t.transactionType == TransactionType.outgoing &&
+          t.date.month == month) {
         sumOfOutgoing += t.price;
       }
     }
@@ -177,13 +178,19 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  double getSumOfSaved() {
+  double getSumOfSaved(int month) {
     double sumOfSaved = 0;
     for (Transaction t in _currentUser!.transactions) {
-      if (t.transactionType == TransactionType.saving) {
+      if (t.transactionType == TransactionType.saving &&
+          t.date.month == month) {
         sumOfSaved += t.price;
       }
     }
     return sumOfSaved;
+  }
+
+  @override
+  List<Transaction> getAllTransactions() {
+    return _currentUser!.transactions;
   }
 }

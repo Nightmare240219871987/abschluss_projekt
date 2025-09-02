@@ -101,6 +101,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 ],
               ),
               TextField(
+                controller: _titleCtrl,
                 decoration: InputDecoration(
                   labelText: "Titel",
                   labelStyle: TextStyle(
@@ -112,6 +113,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 ),
               ),
               TextField(
+                controller: _descriptionCtrl,
                 decoration: InputDecoration(
                   labelText: "Beschreibung",
                   labelStyle: TextStyle(
@@ -135,6 +137,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 ),
               ),
               TextField(
+                controller: _senderCtrl,
                 decoration: InputDecoration(
                   label: Text("Sender"),
                   labelStyle: TextStyle(
@@ -145,6 +148,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 ),
               ),
               TextField(
+                controller: _receipientCtrl,
                 decoration: InputDecoration(
                   label: Text("Empfänger"),
                   labelStyle: TextStyle(
@@ -200,7 +204,7 @@ class _AddTransactionState extends State<AddTransaction> {
               price: double.tryParse(_amountCtrl.text) ?? 0,
               transactionType: type,
               continuous: isContinue,
-              date: DateTime.now(),
+              date: creationTime!,
               receipient: _receipientCtrl.text,
               sender: _senderCtrl.text,
             ),
@@ -222,7 +226,8 @@ class _AddTransactionState extends State<AddTransaction> {
   void onDatePressed() async {
     creationTime = await showDatePicker(
       context: context,
-      firstDate: DateTime.now(),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(0),
       lastDate: DateTime(2999),
     );
     setState(() {});
