@@ -102,6 +102,9 @@ class MockDatabaseRepository implements DatabaseRepository {
         sender: "Marcus",
       ),
     );
+    for (int i = 0; i < 15; i++) {
+      _currentUser!.archivements.archivements[i] = true;
+    }
   }
 
   @override
@@ -204,5 +207,11 @@ class MockDatabaseRepository implements DatabaseRepository {
   Future<List<Transaction>> getAllTransactions() async {
     Future.delayed(Duration(milliseconds: 1000));
     return _currentUser!.transactions;
+  }
+
+  @override
+  Future<User> getCurrentUser() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    return _currentUser!;
   }
 }

@@ -1,10 +1,18 @@
+import 'package:abschluss_projekt/common/classes/user.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
+import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:flutter/material.dart';
+
+//TODO: Freischalt Mechanic implementieren
 
 // ignore: must_be_immutable
 class Archivements extends StatelessWidget {
-  List<Image> medals = [
+  DatabaseRepository db;
+
+  Archivements({super.key, required this.db});
+
+  List<Image> medalImages = [
     Image.asset("assets/medaillen/m20.png"),
     Image.asset("assets/medaillen/m50.png"),
     Image.asset("assets/medaillen/m100.png"),
@@ -22,17 +30,29 @@ class Archivements extends StatelessWidget {
     Image.asset("assets/medaillen/m1000000.png"),
   ];
 
-  Archivements({super.key});
+  List<Badge> medalBadges = [];
+
+  User? user;
 
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < medalImages.length; i++) {
+      medalBadges.add(
+        Badge(
+          backgroundColor: Colors.transparent,
+          label: medalImages[i],
+          isLabelVisible: false,
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: MyAppBar(),
       body: GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
         ),
-        children: medals,
+        children: medalBadges,
       ),
       bottomNavigationBar: MyNavigationBar(),
     );

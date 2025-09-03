@@ -23,6 +23,7 @@ class Incoming extends StatelessWidget {
                   snapshot.hasData) {
                 return BarChart(
                   BarChartData(
+                    borderData: FlBorderData(show: false),
                     titlesData: FlTitlesData(
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
@@ -34,6 +35,12 @@ class Incoming extends StatelessWidget {
                           },
                           showTitles: true,
                         ),
+                      ),
+                      rightTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
                       ),
                     ),
 

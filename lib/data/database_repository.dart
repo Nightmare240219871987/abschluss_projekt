@@ -16,6 +16,7 @@ abstract class DatabaseRepository {
   // READ
   Future<User?> readUser(String username);
   Future<Transaction> readTransaction(String id);
+  Future<User> getCurrentUser();
 
   // UPDATE
   Future<User> updateUser(String id, User user);

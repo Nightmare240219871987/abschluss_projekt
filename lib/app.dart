@@ -28,7 +28,7 @@ class App extends StatelessWidget {
         "/addPage": (context) =>
             AddTransaction(themeProvider: themeProvider, db: db),
         "/statistics": (context) => StatisticsDashboard(db: db),
-        "/archivements": (context) => Archivements(),
+        "/archivements": (context) => Archivements(db: db),
         "/settings": (context) => Settings(themeProvider: themeProvider),
         "/login": (context) => LoginScreen(db: db),
       },
