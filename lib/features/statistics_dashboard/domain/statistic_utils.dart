@@ -54,12 +54,12 @@ List<BarChartGroupData> generateGroupData(List<Transaction> ta) {
   return groups;
 }
 
-List<Transaction> generateTransactionData(
+Future<List<Transaction>> generateTransactionData(
   TransactionType type,
   DatabaseRepository db,
-) {
+) async {
   List<Transaction> ta = [];
-  for (Transaction t in db.getAllTransactions()) {
+  for (Transaction t in await db.getAllTransactions()) {
     if (t.transactionType == type) {
       ta.add(t);
     }

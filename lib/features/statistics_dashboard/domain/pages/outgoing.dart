@@ -14,33 +14,70 @@ class Outgoing extends StatelessWidget {
       children: [
         SizedBox(
           height: 450,
-          child: BarChart(
-            BarChartData(
-              titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    getTitlesWidget: (value, meta) {
-                      return Text(
-                        decodeMonth(value),
-                        style: TextStyle(fontSize: 10),
-                      );
-                    },
-                    showTitles: true,
-                  ),
-                ),
-              ),
+          child: FutureBuilder(
+            future: generateTransactionData(TransactionType.outgoing, db),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                return BarChart(
+                  BarChartData(
+                    titlesData: FlTitlesData(
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          getTitlesWidget: (value, meta) {
+                            return Text(
+                              decodeMonth(value),
+                              style: TextStyle(fontSize: 10),
+                            );
+                          },
+                          showTitles: true,
+                        ),
+                      ),
+                    ),
 
-              barGroups: generateGroupData(
-                generateTransactionData(TransactionType.outgoing, db),
-              ),
-            ),
+                    barGroups: generateGroupData(snapshot.data!),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.error),
+                    Text("Es ist ein Fehler aufgetreten. (${snapshot.error})"),
+                  ],
+                );
+              }
+              return Text("Es wurde keine Aktion ausgeführt.");
+            },
           ),
         ),
-
         Column(
-          children: getListTiles(
-            generateTransactionData(TransactionType.outgoing, db),
-          ),
+          children: [
+            FutureBuilder(
+              future: generateTransactionData(TransactionType.outgoing, db),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  return Column(children: getListTiles(snapshot.data!));
+                } else if (snapshot.hasError) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.error),
+                      Text(
+                        "Es ist ein Fehler aufgetreten. (${snapshot.error})",
+                      ),
+                    ],
+                  );
+                }
+                return Text("Es wurde keine Aktion ausgeführt.");
+              },
+            ),
+          ],
         ),
       ],
     );

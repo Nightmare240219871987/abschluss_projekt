@@ -14,7 +14,8 @@ class MockDatabaseRepository implements DatabaseRepository {
   User? _currentUser;
 
   @override
-  void initialize(User user) {
+  Future<void> initialize(User user) async {
+    await Future.delayed(Duration(milliseconds: 1000));
     _currentUser = user;
     _currentUser!.transactions.clear();
     _currentUser!.transactions.add(
@@ -104,32 +105,35 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  void createTransaction(Transaction transaction) {
+  Future<void> createTransaction(Transaction transaction) async {
+    await Future.delayed(Duration(milliseconds: 1000));
     _currentUser!.transactions.add(transaction);
   }
 
   @override
-  void createUser(User user) {
+  Future<void> createUser(User user) async {
     // TODO: implement createUser
   }
 
   @override
-  void deleteTransaction(String id) {
+  Future<void> deleteTransaction(String id) async {
     // TODO: implement deleteTransaction
   }
 
   @override
-  void deleteUser(String id) {
+  Future<void> deleteUser(String id) async {
     // TODO: implement deleteUser
   }
 
   @override
-  Transaction readTransaction(String id) {
+  Future<Transaction> readTransaction(String id) async {
+    await Future.delayed(Duration(milliseconds: 1000));
     return _currentUser!.transactions[int.parse(id)];
   }
 
   @override
-  User? readUser(String username) {
+  Future<User?> readUser(String username) async {
+    await Future.delayed(Duration(milliseconds: 1000));
     for (User u in users) {
       if (u.username == username) return u;
     }
@@ -137,24 +141,29 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Transaction updateTransaction(String id, Transaction transaction) {
+  Future<Transaction> updateTransaction(
+    String id,
+    Transaction transaction,
+  ) async {
     // TODO: implement updateTransaction
     throw UnimplementedError();
   }
 
   @override
-  User updateUser(String id, User user) {
+  Future<User> updateUser(String id, User user) async {
     // TODO: implement updateUser
     throw UnimplementedError();
   }
 
   @override
-  double getAvailable(int month) {
-    return getSumOfIncoming(month) - getSumOfOutgoing(month);
+  Future<double> getAvailable(int month) async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    return await getSumOfIncoming(month) - await getSumOfOutgoing(month);
   }
 
   @override
-  double getSumOfIncoming(int month) {
+  Future<double> getSumOfIncoming(int month) async {
+    await Future.delayed(Duration(milliseconds: 500));
     double sumOfIncoming = 0;
     for (Transaction t in _currentUser!.transactions) {
       if (t.transactionType == TransactionType.incoming &&
@@ -166,7 +175,8 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  double getSumOfOutgoing(int month) {
+  Future<double> getSumOfOutgoing(int month) async {
+    await Future.delayed(Duration(milliseconds: 500));
     double sumOfOutgoing = 0;
     for (Transaction t in _currentUser!.transactions) {
       if (t.transactionType == TransactionType.outgoing &&
@@ -178,7 +188,8 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  double getSumOfSaved(int month) {
+  Future<double> getSumOfSaved(int month) async {
+    await Future.delayed(Duration(milliseconds: 1000));
     double sumOfSaved = 0;
     for (Transaction t in _currentUser!.transactions) {
       if (t.transactionType == TransactionType.saving &&
@@ -190,7 +201,8 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  List<Transaction> getAllTransactions() {
+  Future<List<Transaction>> getAllTransactions() async {
+    Future.delayed(Duration(milliseconds: 1000));
     return _currentUser!.transactions;
   }
 }

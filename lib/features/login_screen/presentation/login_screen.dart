@@ -112,20 +112,34 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       ElevatedButton(
                         onPressed: isCorrect
-                            ? () {
-                                User? user = widget.db.readUser(
-                                  _usernameController.text,
-                                );
-                                if (user != null) {
-                                  widget.db.initialize(user);
-                                }
+                            ? () async {
+                                if (mounted) {
+                                  User? user = await widget.db.readUser(
+                                    _usernameController.text,
+                                  );
+                                  if (user != null) {
+                                    await widget.db.initialize(user);
+                                  }
 
-                                if (user != null) {
-                                  if (user.password ==
-                                      _passwordController.text) {
-                                    Navigator.of(
-                                      context,
-                                    ).pushReplacementNamed("/dashboard");
+                                  if (user != null) {
+                                    if (user.password ==
+                                        _passwordController.text) {
+                                      Navigator.of(
+                                        context,
+                                      ).pushReplacementNamed("/dashboard");
+                                    } else {
+                                      _usernameController.clear();
+                                      _passwordController.clear();
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            "Benutzername oder Passwort falsch.",
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   } else {
                                     _usernameController.clear();
                                     _passwordController.clear();
@@ -137,16 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     );
                                   }
-                                } else {
-                                  _usernameController.clear();
-                                  _passwordController.clear();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Benutzername oder Passwort falsch.",
-                                      ),
-                                    ),
-                                  );
                                 }
                               }
                             : null,

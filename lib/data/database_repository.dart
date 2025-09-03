@@ -3,25 +3,25 @@ import '../common/classes/transaction.dart';
 
 abstract class DatabaseRepository {
   // Programm functionality
-  double getSumOfOutgoing(int month);
-  double getSumOfIncoming(int month);
-  double getSumOfSaved(int month);
-  double getAvailable(int month);
-  List<Transaction> getAllTransactions();
+  Future<double> getSumOfOutgoing(int month);
+  Future<double> getSumOfIncoming(int month);
+  Future<double> getSumOfSaved(int month);
+  Future<double> getAvailable(int month);
+  Future<List<Transaction>> getAllTransactions();
 
   // CREATE
-  void createUser(User user);
-  void createTransaction(Transaction transaction);
-  void initialize(User user);
+  Future<void> createUser(User user);
+  Future<void> createTransaction(Transaction transaction);
+  Future<void> initialize(User user);
   // READ
-  User? readUser(String username);
-  Transaction readTransaction(String id);
+  Future<User?> readUser(String username);
+  Future<Transaction> readTransaction(String id);
 
   // UPDATE
-  User updateUser(String id, User user);
-  Transaction updateTransaction(String id, Transaction transaction);
+  Future<User> updateUser(String id, User user);
+  Future<Transaction> updateTransaction(String id, Transaction transaction);
 
   // DELETE
-  void deleteUser(String id);
-  void deleteTransaction(String id);
+  Future<void> deleteUser(String id);
+  Future<void> deleteTransaction(String id);
 }
