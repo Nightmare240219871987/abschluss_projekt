@@ -41,7 +41,7 @@ class Archivements extends StatelessWidget {
         Badge(
           backgroundColor: Colors.transparent,
           label: medalImages[i],
-          isLabelVisible: false,
+          isLabelVisible: true,
         ),
       );
     }
