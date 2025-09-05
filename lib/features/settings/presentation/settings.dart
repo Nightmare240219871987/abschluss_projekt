@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 class Settings extends StatefulWidget {
   final ThemeProvider themeProvider;
   const Settings({super.key, required this.themeProvider});
-
+  // TODO: Sprachunterstüzung
+  // TODO: User löschen implementieren
   @override
   State<Settings> createState() => _SettingsState();
 }

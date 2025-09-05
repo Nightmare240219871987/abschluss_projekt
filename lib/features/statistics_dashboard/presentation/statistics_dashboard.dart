@@ -1,17 +1,21 @@
+import 'package:abschluss_projekt/common/classes/transaction.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
-import 'package:abschluss_projekt/features/statistics_dashboard/domain/pages/incoming.dart';
-import 'package:abschluss_projekt/features/statistics_dashboard/domain/pages/outgoing.dart';
-import 'package:abschluss_projekt/features/statistics_dashboard/domain/pages/saving.dart';
+import 'package:abschluss_projekt/features/statistics_dashboard/domain/transaction_details.dart';
+import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 
 // TODO: Continuous Mechanics implementieren
-// TODO: Monatscard -> transaction -> ListTile -> mit Editing und deletion
 class StatisticsDashboard extends StatefulWidget {
   final DatabaseRepository db;
-  const StatisticsDashboard({super.key, required this.db});
+  final ThemeProvider themeProvider;
+  const StatisticsDashboard({
+    super.key,
+    required this.db,
+    required this.themeProvider,
+  });
 
   @override
   State<StatisticsDashboard> createState() => _StatisticsDashboardState();
@@ -27,9 +31,27 @@ class _StatisticsDashboardState extends State<StatisticsDashboard> {
   @override
   void initState() {
     super.initState();
-    _statistics.add(Incoming(db: widget.db));
-    _statistics.add(Outgoing(db: widget.db));
-    _statistics.add(Saving(db: widget.db));
+    _statistics.add(
+      TransactionDetails(
+        db: widget.db,
+        transactionType: TransactionType.incoming,
+        themeProvider: widget.themeProvider,
+      ),
+    );
+    _statistics.add(
+      TransactionDetails(
+        db: widget.db,
+        transactionType: TransactionType.outgoing,
+        themeProvider: widget.themeProvider,
+      ),
+    );
+    _statistics.add(
+      TransactionDetails(
+        db: widget.db,
+        transactionType: TransactionType.saving,
+        themeProvider: widget.themeProvider,
+      ),
+    );
   }
 
   @override

@@ -1,44 +1,64 @@
 import 'package:abschluss_projekt/common/classes/transaction.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
-import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class AddTransaction extends StatefulWidget {
+class EditTransaction extends StatefulWidget {
   final DatabaseRepository db;
   final ThemeProvider themeProvider;
+  String id;
 
-  const AddTransaction({
+  EditTransaction({
     super.key,
-    required this.themeProvider,
     required this.db,
+    required this.themeProvider,
+    required this.id,
   });
 
   @override
-  State<AddTransaction> createState() => _AddTransactionState();
+  State<EditTransaction> createState() => _EditTransactionState();
 }
 
-class _AddTransactionState extends State<AddTransaction> {
+class _EditTransactionState extends State<EditTransaction> {
   final TextEditingController _titleCtrl = TextEditingController();
   final TextEditingController _descriptionCtrl = TextEditingController();
   final TextEditingController _amountCtrl = TextEditingController();
   final TextEditingController _senderCtrl = TextEditingController();
   final TextEditingController _receipientCtrl = TextEditingController();
-  int _index = 20;
 
   List<String> items = ["Ausgaben", "Einnahmen", "Erspartes"];
   bool isContinue = false;
   DateTime? creationTime;
 
-  late String currentChoice;
+  String currentChoice = "Ausgaben";
+
+  Future<void> _editState(String id) async {
+    Transaction t = await widget.db.readTransaction(id);
+    _titleCtrl.text = t.title;
+    _descriptionCtrl.text = t.description;
+    _amountCtrl.text = t.price.toStringAsFixed(2);
+    _senderCtrl.text = t.sender;
+    _receipientCtrl.text = t.receipient;
+    switch (t.transactionType) {
+      case TransactionType.outgoing:
+        currentChoice = items[0];
+      case TransactionType.incoming:
+        currentChoice = items[1];
+      case TransactionType.saving:
+        currentChoice = items[2];
+    }
+    isContinue = t.continuous;
+    creationTime = t.date;
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
-    currentChoice = items[0];
+    _editState(widget.id);
   }
 
   @override
@@ -91,11 +111,6 @@ class _AddTransactionState extends State<AddTransaction> {
                         ),
                       ),
                     ),
-                  ),
-
-                  ColorizedIconButton(
-                    icon: Icon(Icons.qr_code_2_outlined),
-                    onPressed: () {},
                   ),
                 ],
               ),
@@ -196,13 +211,13 @@ class _AddTransactionState extends State<AddTransaction> {
           } else {
             type = TransactionType.outgoing;
           }
-          // TODO: Index unique generieren
-          await widget.db.createTransaction(
+          await widget.db.updateTransaction(
+            widget.id,
             Transaction(
-              id: _index.toString(),
+              id: widget.id,
               title: _titleCtrl.text,
               description: _descriptionCtrl.text,
-              price: double.tryParse(_amountCtrl.text) ?? 0,
+              price: double.parse(_amountCtrl.text),
               transactionType: type,
               continuous: isContinue,
               date: creationTime!,
@@ -210,10 +225,10 @@ class _AddTransactionState extends State<AddTransaction> {
               sender: _senderCtrl.text,
             ),
           );
-          _index++;
+
           Navigator.of(context).pop();
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.edit),
       ),
       bottomNavigationBar: MyNavigationBar(),
     );

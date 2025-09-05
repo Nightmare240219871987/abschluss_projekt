@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
+  // TODO: QR Code Scanner Seite erstellen
+  // TODO: Animation -> Splash screen
+
   DatabaseRepository db = MockDatabaseRepository();
   WidgetsFlutterBinding.ensureInitialized();
   await initializeSharedPrefs();
@@ -17,5 +20,3 @@ Future<void> main() async {
     ),
   );
 }
-
-// TODO: QR Code Scanner Seite erstellen
