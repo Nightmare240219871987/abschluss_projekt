@@ -124,12 +124,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                   if (user != null) {
                                     if (user.password ==
                                         _passwordController.text) {
-                                      Navigator.of(
-                                        context,
-                                      ).pushReplacementNamed("/dashboard");
+                                      if (context.mounted) {
+                                        Navigator.of(
+                                          context,
+                                        ).pushReplacementNamed("/dashboard");
+                                      }
                                     } else {
                                       _usernameController.clear();
                                       _passwordController.clear();
+                                      if (context.mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              "Benutzername oder Passwort falsch.",
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  } else {
+                                    _usernameController.clear();
+                                    _passwordController.clear();
+                                    if (context.mounted) {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
@@ -140,16 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       );
                                     }
-                                  } else {
-                                    _usernameController.clear();
-                                    _passwordController.clear();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "Benutzername oder Passwort falsch.",
-                                        ),
-                                      ),
-                                    );
                                   }
                                 }
                               }

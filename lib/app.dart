@@ -4,7 +4,7 @@ import 'package:abschluss_projekt/features/add_transaction/presentation/add_tran
 import 'package:abschluss_projekt/features/archivements/presentation/archivements.dart';
 import 'package:abschluss_projekt/features/login_screen/presentation/login_screen.dart';
 import 'package:abschluss_projekt/features/settings/presentation/settings.dart';
-import 'package:abschluss_projekt/features/statistics_dashboard/presentation/statistics_dashboard.dart';
+import 'package:abschluss_projekt/features/statistics/presentation/statistics_dashboard.dart';
 import 'package:abschluss_projekt/features/dashboard/presentation/dashboard.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';

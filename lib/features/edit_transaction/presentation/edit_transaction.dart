@@ -225,8 +225,9 @@ class _EditTransactionState extends State<EditTransaction> {
               sender: _senderCtrl.text,
             ),
           );
-
-          Navigator.of(context).pop();
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
         },
         child: Icon(Icons.edit),
       ),

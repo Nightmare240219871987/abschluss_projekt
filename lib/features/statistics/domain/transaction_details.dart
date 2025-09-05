@@ -3,7 +3,7 @@ import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:abschluss_projekt/features/statistics_dashboard/domain/statistic_utils.dart';
+import 'package:abschluss_projekt/features/statistics/domain/statistic_utils.dart';
 
 // ignore: must_be_immutable
 class TransactionDetails extends StatefulWidget {

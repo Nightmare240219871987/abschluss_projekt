@@ -3,7 +3,7 @@ import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
-import 'package:abschluss_projekt/features/statistics_dashboard/domain/transaction_details.dart';
+import 'package:abschluss_projekt/features/statistics/domain/transaction_details.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 

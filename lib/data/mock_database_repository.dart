@@ -197,6 +197,10 @@ class MockDatabaseRepository implements DatabaseRepository {
           t.date.month == month) {
         sumOfOutgoing += t.price;
       }
+      if (t.transactionType == TransactionType.saving &&
+          t.date.month == month) {
+        sumOfOutgoing += t.price;
+      }
     }
     return sumOfOutgoing;
   }
@@ -206,8 +210,7 @@ class MockDatabaseRepository implements DatabaseRepository {
     await Future.delayed(Duration(milliseconds: 1000));
     double sumOfSaved = 0;
     for (Transaction t in _currentUser!.transactions) {
-      if (t.transactionType == TransactionType.saving &&
-          t.date.month == month) {
+      if (t.transactionType == TransactionType.saving) {
         sumOfSaved += t.price;
       }
     }

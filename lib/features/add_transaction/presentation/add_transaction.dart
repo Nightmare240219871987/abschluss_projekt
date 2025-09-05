@@ -211,7 +211,9 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
           );
           _index++;
-          Navigator.of(context).pop();
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
         },
         child: Icon(Icons.add),
       ),
