@@ -20,7 +20,7 @@ abstract class DatabaseRepository {
 
   // UPDATE
   Future<User> updateUser(String id, User user);
-  Future<Transaction> updateTransaction(String id, Transaction transaction);
+  Future<void> updateTransaction(String id, Transaction transaction);
 
   // DELETE
   Future<void> deleteUser(String id);

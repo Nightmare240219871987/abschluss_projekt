@@ -1,6 +1,7 @@
 enum TransactionType { outgoing, incoming, saving }
 
 class Transaction {
+  String id;
   String title;
   String description;
   double price;
@@ -11,6 +12,7 @@ class Transaction {
   String sender;
 
   Transaction({
+    required this.id,
     required this.title,
     required this.description,
     required this.price,

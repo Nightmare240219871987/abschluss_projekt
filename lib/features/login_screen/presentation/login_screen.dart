@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isCorrect = false;
-
+  // TODO: Registrierung hinzufügen
   @override
   Widget build(BuildContext context) {
     return Scaffold(

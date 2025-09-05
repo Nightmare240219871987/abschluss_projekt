@@ -20,6 +20,7 @@ class MockDatabaseRepository implements DatabaseRepository {
     _currentUser!.transactions.clear();
     _currentUser!.transactions.add(
       Transaction(
+        id: "1",
         title: "Miete",
         description: "Mietkosten",
         price: 800,
@@ -32,6 +33,7 @@ class MockDatabaseRepository implements DatabaseRepository {
     );
     _currentUser!.transactions.add(
       Transaction(
+        id: "2",
         title: "Telekom",
         description: "Internet und Festnetz",
         price: 56,
@@ -44,6 +46,7 @@ class MockDatabaseRepository implements DatabaseRepository {
     );
     _currentUser!.transactions.add(
       Transaction(
+        id: "3",
         title: "Strom",
         description: "EnviaM",
         price: 144,
@@ -56,6 +59,7 @@ class MockDatabaseRepository implements DatabaseRepository {
     );
     _currentUser!.transactions.add(
       Transaction(
+        id: "4",
         title: "ALG I",
         description: "Arbeitslosengeld",
         price: 1067,
@@ -68,6 +72,7 @@ class MockDatabaseRepository implements DatabaseRepository {
     );
     _currentUser!.transactions.add(
       Transaction(
+        id: "5",
         title: "Kindergeld",
         description: "Kindergeld",
         price: 500,
@@ -80,6 +85,7 @@ class MockDatabaseRepository implements DatabaseRepository {
     );
     _currentUser!.transactions.add(
       Transaction(
+        id: "6",
         title: "Kinderzuschlag",
         description: "Kinderzuschlag",
         price: 0,
@@ -92,6 +98,7 @@ class MockDatabaseRepository implements DatabaseRepository {
     );
     _currentUser!.transactions.add(
       Transaction(
+        id: "7",
         title: "Sabrina Taschengeld",
         description: "Taschengeld",
         price: 100,
@@ -120,7 +127,10 @@ class MockDatabaseRepository implements DatabaseRepository {
 
   @override
   Future<void> deleteTransaction(String id) async {
-    // TODO: implement deleteTransaction
+    Future.delayed(Duration(milliseconds: 1000));
+    _currentUser!.transactions.remove(
+      _currentUser!.transactions.firstWhere((Transaction t) => t.id == id),
+    );
   }
 
   @override
@@ -131,7 +141,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   @override
   Future<Transaction> readTransaction(String id) async {
     await Future.delayed(Duration(milliseconds: 1000));
-    return _currentUser!.transactions[int.parse(id)];
+    return _currentUser!.transactions.firstWhere((Transaction t) => t.id == id);
   }
 
   @override
@@ -144,12 +154,13 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<Transaction> updateTransaction(
-    String id,
-    Transaction transaction,
-  ) async {
-    // TODO: implement updateTransaction
-    throw UnimplementedError();
+  Future<void> updateTransaction(String id, Transaction transaction) async {
+    Future.delayed(Duration(milliseconds: 1000));
+    for (int i = 0; i < _currentUser!.transactions.length; i++) {
+      if (_currentUser!.transactions[i].id == id) {
+        _currentUser!.transactions[i] = transaction;
+      }
+    }
   }
 
   @override

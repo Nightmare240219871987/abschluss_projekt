@@ -1,5 +1,7 @@
 import 'package:abschluss_projekt/common/classes/transaction.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/features/edit_transaction/presentation/edit_transaction.dart';
+import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -67,7 +69,14 @@ Future<List<Transaction>> generateTransactionData(
   return ta;
 }
 
-List<ListTile> getListTiles(List<Transaction> ta) {
+List<ListTile> getListTiles(
+  List<Transaction> ta,
+  DatabaseRepository db,
+  Function() onDelete,
+  Function() onEdit,
+  BuildContext context,
+  ThemeProvider themeProvider,
+) {
   List<List<Transaction>> monthly = [
     [],
     [],
@@ -91,10 +100,40 @@ List<ListTile> getListTiles(List<Transaction> ta) {
     }
   }
   for (int i = 0; i < monthly.length; i++) {
-    Iterable<Text> trans = monthly[i].map(
-      (t) => Text(
-        "${t.title} : ${t.price.toStringAsFixed(2)}€",
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+    Iterable<Widget> trans = monthly[i].map(
+      (t) => ListTile(
+        title: Text(t.title),
+        subtitle: Text(
+          "${t.price.toStringAsFixed(2)}€",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              onPressed: () async {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EditTransaction(
+                      themeProvider: themeProvider,
+                      db: db,
+                      id: t.id,
+                    ),
+                  ),
+                );
+                onEdit();
+              },
+              icon: Icon(Icons.edit),
+            ),
+            IconButton(
+              onPressed: () async {
+                await db.deleteTransaction(t.id);
+                onDelete();
+              },
+              icon: Icon(Icons.delete, color: Colors.red),
+            ),
+          ],
+        ),
       ),
     );
     listTiles.add(

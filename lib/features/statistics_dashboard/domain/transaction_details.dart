@@ -1,13 +1,27 @@
 import 'package:abschluss_projekt/common/classes/transaction.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:abschluss_projekt/features/statistics_dashboard/domain/statistic_utils.dart';
 
-class Saving extends StatelessWidget {
+// ignore: must_be_immutable
+class TransactionDetails extends StatefulWidget {
   final DatabaseRepository db;
-  const Saving({super.key, required this.db});
+  TransactionType transactionType;
+  ThemeProvider themeProvider;
+  TransactionDetails({
+    super.key,
+    required this.db,
+    required this.transactionType,
+    required this.themeProvider,
+  });
 
+  @override
+  State<TransactionDetails> createState() => _TransactionDetailsState();
+}
+
+class _TransactionDetailsState extends State<TransactionDetails> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,7 +29,7 @@ class Saving extends StatelessWidget {
         SizedBox(
           height: 450,
           child: FutureBuilder(
-            future: generateTransactionData(TransactionType.saving, db),
+            future: generateTransactionData(widget.transactionType, widget.db),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
@@ -61,31 +75,38 @@ class Saving extends StatelessWidget {
           ),
         ),
 
-        Column(
-          children: [
-            FutureBuilder(
-              future: generateTransactionData(TransactionType.saving, db),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.hasData) {
-                  return Column(children: getListTiles(snapshot.data!));
-                } else if (snapshot.hasError) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.error),
-                      Text(
-                        "Es ist ein Fehler aufgetreten. (${snapshot.error})",
-                      ),
-                    ],
-                  );
-                }
-                return Text("Es wurde keine Aktion ausgeführt.");
-              },
-            ),
-          ],
+        FutureBuilder(
+          future: generateTransactionData(widget.transactionType, widget.db),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              return Column(
+                children: getListTiles(
+                  snapshot.data!,
+                  widget.db,
+                  () {
+                    setState(() {});
+                  },
+                  () {
+                    setState(() {});
+                  },
+                  context,
+                  widget.themeProvider,
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.error),
+                  Text("Es ist ein Fehler aufgetreten. (${snapshot.error})"),
+                ],
+              );
+            }
+            return Text("Es wurde keine Aktion ausgeführt.");
+          },
         ),
       ],
     );
