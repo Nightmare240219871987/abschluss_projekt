@@ -3,22 +3,17 @@ import 'database_repository.dart';
 import '../common/classes/user.dart';
 
 class MockDatabaseRepository implements DatabaseRepository {
-  List<User> users = [
-    User(
-      username: "Nightmare2402",
-      password: "@42Illuminati",
-      email: "Marcusschmidt2402@Hotmail.de",
-    ),
-  ];
-
-  User? _currentUser;
+  final User _currentUser = User(
+    username: "Marcusschmidt2402@Hotmail.de",
+    password: "@42Illuminati",
+    email: "Marcusschmidt2402@Hotmail.de",
+  );
 
   @override
   Future<void> initialize(User user) async {
     await Future.delayed(Duration(milliseconds: 1000));
-    _currentUser = user;
-    _currentUser!.transactions.clear();
-    _currentUser!.transactions.add(
+    _currentUser.transactions.clear();
+    _currentUser.transactions.add(
       Transaction(
         id: "1",
         title: "Miete",
@@ -31,7 +26,7 @@ class MockDatabaseRepository implements DatabaseRepository {
         sender: "Marcus",
       ),
     );
-    _currentUser!.transactions.add(
+    _currentUser.transactions.add(
       Transaction(
         id: "2",
         title: "Telekom",
@@ -44,7 +39,7 @@ class MockDatabaseRepository implements DatabaseRepository {
         sender: "Marcus",
       ),
     );
-    _currentUser!.transactions.add(
+    _currentUser.transactions.add(
       Transaction(
         id: "3",
         title: "Strom",
@@ -57,7 +52,7 @@ class MockDatabaseRepository implements DatabaseRepository {
         sender: "Marcus",
       ),
     );
-    _currentUser!.transactions.add(
+    _currentUser.transactions.add(
       Transaction(
         id: "4",
         title: "ALG I",
@@ -70,7 +65,7 @@ class MockDatabaseRepository implements DatabaseRepository {
         sender: "Clara",
       ),
     );
-    _currentUser!.transactions.add(
+    _currentUser.transactions.add(
       Transaction(
         id: "5",
         title: "Kindergeld",
@@ -83,7 +78,7 @@ class MockDatabaseRepository implements DatabaseRepository {
         sender: "Marcus",
       ),
     );
-    _currentUser!.transactions.add(
+    _currentUser.transactions.add(
       Transaction(
         id: "6",
         title: "Kinderzuschlag",
@@ -96,7 +91,7 @@ class MockDatabaseRepository implements DatabaseRepository {
         sender: "Marcus",
       ),
     );
-    _currentUser!.transactions.add(
+    _currentUser.transactions.add(
       Transaction(
         id: "7",
         title: "Sabrina Taschengeld",
@@ -110,14 +105,14 @@ class MockDatabaseRepository implements DatabaseRepository {
       ),
     );
     for (int i = 0; i < 15; i++) {
-      _currentUser!.archivements.archivements[i] = true;
+      _currentUser.archivements.archivements[i] = false;
     }
   }
 
   @override
   Future<void> createTransaction(Transaction transaction) async {
     await Future.delayed(Duration(milliseconds: 1000));
-    _currentUser!.transactions.add(transaction);
+    _currentUser.transactions.add(transaction);
   }
 
   @override
@@ -128,8 +123,8 @@ class MockDatabaseRepository implements DatabaseRepository {
   @override
   Future<void> deleteTransaction(String id) async {
     Future.delayed(Duration(milliseconds: 1000));
-    _currentUser!.transactions.remove(
-      _currentUser!.transactions.firstWhere((Transaction t) => t.id == id),
+    _currentUser.transactions.remove(
+      _currentUser.transactions.firstWhere((Transaction t) => t.id == id),
     );
   }
 
@@ -141,24 +136,20 @@ class MockDatabaseRepository implements DatabaseRepository {
   @override
   Future<Transaction> readTransaction(String id) async {
     await Future.delayed(Duration(milliseconds: 1000));
-    return _currentUser!.transactions.firstWhere((Transaction t) => t.id == id);
+    return _currentUser.transactions.firstWhere((Transaction t) => t.id == id);
   }
 
   @override
   Future<User?> readUser(String username) async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    for (User u in users) {
-      if (u.username == username) return u;
-    }
     return null;
   }
 
   @override
   Future<void> updateTransaction(String id, Transaction transaction) async {
     Future.delayed(Duration(milliseconds: 1000));
-    for (int i = 0; i < _currentUser!.transactions.length; i++) {
-      if (_currentUser!.transactions[i].id == id) {
-        _currentUser!.transactions[i] = transaction;
+    for (int i = 0; i < _currentUser.transactions.length; i++) {
+      if (_currentUser.transactions[i].id == id) {
+        _currentUser.transactions[i] = transaction;
       }
     }
   }
@@ -179,7 +170,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   Future<double> getSumOfIncoming(int month) async {
     await Future.delayed(Duration(milliseconds: 500));
     double sumOfIncoming = 0;
-    for (Transaction t in _currentUser!.transactions) {
+    for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.incoming &&
           t.date.month == month) {
         sumOfIncoming += t.price;
@@ -192,7 +183,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   Future<double> getSumOfOutgoing(int month) async {
     await Future.delayed(Duration(milliseconds: 500));
     double sumOfOutgoing = 0;
-    for (Transaction t in _currentUser!.transactions) {
+    for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.outgoing &&
           t.date.month == month) {
         sumOfOutgoing += t.price;
@@ -209,7 +200,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   Future<double> getSumOfSaved(int month) async {
     await Future.delayed(Duration(milliseconds: 1000));
     double sumOfSaved = 0;
-    for (Transaction t in _currentUser!.transactions) {
+    for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.saving) {
         sumOfSaved += t.price;
       }
@@ -220,12 +211,12 @@ class MockDatabaseRepository implements DatabaseRepository {
   @override
   Future<List<Transaction>> getAllTransactions() async {
     Future.delayed(Duration(milliseconds: 1000));
-    return _currentUser!.transactions;
+    return _currentUser.transactions;
   }
 
   @override
   Future<User> getCurrentUser() async {
     await Future.delayed(Duration(milliseconds: 1000));
-    return _currentUser!;
+    return _currentUser;
   }
 }

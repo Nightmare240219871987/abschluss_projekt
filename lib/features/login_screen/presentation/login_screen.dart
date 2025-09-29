@@ -1,12 +1,13 @@
-import 'package:abschluss_projekt/common/classes/user.dart';
+import 'package:abschluss_projekt/data/auth_repository.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   final DatabaseRepository db;
+  final AuthRepository auth;
 
   // ignore: prefer_const_constructors_in_immutables
-  LoginScreen({super.key, required this.db});
+  LoginScreen({super.key, required this.db, required this.auth});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -113,52 +114,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton(
                         onPressed: isCorrect
                             ? () async {
-                                if (mounted) {
-                                  User? user = await widget.db.readUser(
+                                if (context.mounted) {
+                                  await widget.auth.signInWithEmailAndPassword(
                                     _usernameController.text,
-                                  );
-                                  if (user != null) {
-                                    await widget.db.initialize(user);
-                                  }
-
-                                  if (user != null) {
-                                    if (user.password ==
-                                        _passwordController.text) {
-                                      if (context.mounted) {
-                                        Navigator.of(
-                                          context,
-                                        ).pushReplacementNamed("/dashboard");
-                                      }
-                                    } else {
-                                      _usernameController.clear();
-                                      _passwordController.clear();
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              "Benutzername oder Passwort falsch.",
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  } else {
-                                    _usernameController.clear();
-                                    _passwordController.clear();
-                                    if (context.mounted) {
+                                    _passwordController.text,
+                                    onError: (Object e) {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
                                         SnackBar(
-                                          content: Text(
-                                            "Benutzername oder Passwort falsch.",
+                                          content: const Text(
+                                            "Login fehlgeschlagen.",
                                           ),
                                         ),
                                       );
-                                    }
-                                  }
+                                    },
+                                  );
                                 }
                               }
                             : null,

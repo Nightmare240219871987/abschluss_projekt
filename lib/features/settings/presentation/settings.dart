@@ -1,3 +1,4 @@
+import 'package:abschluss_projekt/data/auth_repository.dart';
 import 'package:abschluss_projekt/data/shared_prefs.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
   final ThemeProvider themeProvider;
-  const Settings({super.key, required this.themeProvider});
+  final AuthRepository auth;
+  const Settings({super.key, required this.themeProvider, required this.auth});
   // TODO: Sprachunterstüzung
   // TODO: User löschen implementieren
   @override
@@ -32,6 +34,15 @@ class _SettingsState extends State<Settings> {
                     widget.themeProvider.setDarkTheme(value);
                   });
                 },
+              ),
+            ),
+            ListTile(
+              leading: Text("Account"),
+              trailing: TextButton(
+                onPressed: () async {
+                  await widget.auth.signOut();
+                },
+                child: Text("Ausloggen"),
               ),
             ),
           ],
