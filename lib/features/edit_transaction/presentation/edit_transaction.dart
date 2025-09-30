@@ -214,7 +214,7 @@ class _EditTransactionState extends State<EditTransaction> {
           await widget.db.updateTransaction(
             widget.id,
             Transaction(
-              id: widget.id,
+              id: "",
               title: _titleCtrl.text,
               description: _descriptionCtrl.text,
               price: double.parse(_amountCtrl.text),

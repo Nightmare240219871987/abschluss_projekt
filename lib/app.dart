@@ -26,6 +26,7 @@ class App extends StatelessWidget {
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         return MaterialApp(
+          key: Key(snapshot.data?.uid ?? "no user"),
           debugShowCheckedModeBanner: false,
           theme: themeProvider.themeData,
           routes: {
@@ -39,9 +40,7 @@ class App extends StatelessWidget {
                 Settings(themeProvider: themeProvider, auth: auth),
             "/login": (context) => LoginScreen(db: db, auth: auth),
           },
-          home: snapshot.data == null
-              ? LoginScreen(db: db, auth: auth)
-              : Dashboard(db: db),
+          initialRoute: snapshot.hasData ? "/dashboard" : "/login",
         );
       },
     );

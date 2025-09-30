@@ -199,7 +199,7 @@ class _AddTransactionState extends State<AddTransaction> {
           // TODO: Index unique generieren
           await widget.db.createTransaction(
             Transaction(
-              id: _index.toString(),
+              id: "",
               title: _titleCtrl.text,
               description: _descriptionCtrl.text,
               price: double.tryParse(_amountCtrl.text) ?? 0,

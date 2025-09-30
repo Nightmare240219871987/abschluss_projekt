@@ -10,19 +10,16 @@ abstract class DatabaseRepository {
   Future<List<Transaction>> getAllTransactions();
 
   // CREATE
-  Future<void> createUser(User user);
   Future<void> createTransaction(Transaction transaction);
   Future<void> initialize(User user);
+
   // READ
-  Future<User?> readUser(String username);
   Future<Transaction> readTransaction(String id);
   Future<User> getCurrentUser();
 
   // UPDATE
-  Future<User> updateUser(String id, User user);
   Future<void> updateTransaction(String id, Transaction transaction);
 
   // DELETE
-  Future<void> deleteUser(String id);
   Future<void> deleteTransaction(String id);
 }

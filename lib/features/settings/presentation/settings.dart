@@ -41,6 +41,7 @@ class _SettingsState extends State<Settings> {
               trailing: TextButton(
                 onPressed: () async {
                   await widget.auth.signOut();
+                  setState(() {});
                 },
                 child: Text("Ausloggen"),
               ),

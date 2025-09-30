@@ -3,11 +3,7 @@ import 'database_repository.dart';
 import '../common/classes/user.dart';
 
 class MockDatabaseRepository implements DatabaseRepository {
-  final User _currentUser = User(
-    username: "Marcusschmidt2402@Hotmail.de",
-    password: "@42Illuminati",
-    email: "Marcusschmidt2402@Hotmail.de",
-  );
+  final User _currentUser = User(email: "");
 
   @override
   Future<void> initialize(User user) async {
@@ -116,11 +112,6 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<void> createUser(User user) async {
-    // TODO: implement createUser
-  }
-
-  @override
   Future<void> deleteTransaction(String id) async {
     Future.delayed(Duration(milliseconds: 1000));
     _currentUser.transactions.remove(
@@ -129,19 +120,9 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<void> deleteUser(String id) async {
-    // TODO: implement deleteUser
-  }
-
-  @override
   Future<Transaction> readTransaction(String id) async {
     await Future.delayed(Duration(milliseconds: 1000));
     return _currentUser.transactions.firstWhere((Transaction t) => t.id == id);
-  }
-
-  @override
-  Future<User?> readUser(String username) async {
-    return null;
   }
 
   @override
@@ -152,12 +133,6 @@ class MockDatabaseRepository implements DatabaseRepository {
         _currentUser.transactions[i] = transaction;
       }
     }
-  }
-
-  @override
-  Future<User> updateUser(String id, User user) async {
-    // TODO: implement updateUser
-    throw UnimplementedError();
   }
 
   @override

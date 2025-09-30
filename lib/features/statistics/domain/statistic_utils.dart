@@ -127,7 +127,7 @@ List<ListTile> getListTiles(
             ),
             IconButton(
               onPressed: () async {
-                await db.deleteTransaction(t.id);
+                await db.deleteTransaction(i.toString());
                 onDelete();
               },
               icon: Icon(Icons.delete, color: Colors.red),
