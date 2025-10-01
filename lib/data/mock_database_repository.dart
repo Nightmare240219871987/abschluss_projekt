@@ -3,10 +3,10 @@ import 'database_repository.dart';
 import '../common/classes/user.dart';
 
 class MockDatabaseRepository implements DatabaseRepository {
-  final User _currentUser = User(email: "");
+  final User _currentUser = User(email: "", uid: "");
 
   @override
-  Future<void> initialize(User user) async {
+  Future<void> initialize() async {
     await Future.delayed(Duration(milliseconds: 1000));
     _currentUser.transactions.clear();
     _currentUser.transactions.add(
@@ -136,14 +136,12 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<double> getAvailable(int month) async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    return await getSumOfIncoming(month) - await getSumOfOutgoing(month);
+  double getAvailable(int month) {
+    return getSumOfIncoming(month) - getSumOfOutgoing(month);
   }
 
   @override
-  Future<double> getSumOfIncoming(int month) async {
-    await Future.delayed(Duration(milliseconds: 500));
+  double getSumOfIncoming(int month) {
     double sumOfIncoming = 0;
     for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.incoming &&
@@ -155,8 +153,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<double> getSumOfOutgoing(int month) async {
-    await Future.delayed(Duration(milliseconds: 500));
+  double getSumOfOutgoing(int month) {
     double sumOfOutgoing = 0;
     for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.outgoing &&
@@ -172,8 +169,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<double> getSumOfSaved(int month) async {
-    await Future.delayed(Duration(milliseconds: 1000));
+  double getSumOfSaved(int month) {
     double sumOfSaved = 0;
     for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.saving) {
@@ -190,8 +186,15 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<User> getCurrentUser() async {
-    await Future.delayed(Duration(milliseconds: 1000));
+  void setUser(User user) {
+    // TODO: implement setUser
+  }
+
+  @override
+  User getUser() {
     return _currentUser;
   }
+
+  @override
+  Stream<List<Transaction>> transactionChanged() async* {}
 }

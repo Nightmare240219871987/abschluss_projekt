@@ -61,7 +61,7 @@ Future<List<Transaction>> generateTransactionData(
   DatabaseRepository db,
 ) async {
   List<Transaction> ta = [];
-  for (Transaction t in await db.getAllTransactions()) {
+  for (Transaction t in db.getUser().transactions) {
     if (t.transactionType == type) {
       ta.add(t);
     }
@@ -127,7 +127,7 @@ List<ListTile> getListTiles(
             ),
             IconButton(
               onPressed: () async {
-                await db.deleteTransaction(i.toString());
+                await db.deleteTransaction(t.id);
                 onDelete();
               },
               icon: Icon(Icons.delete, color: Colors.red),

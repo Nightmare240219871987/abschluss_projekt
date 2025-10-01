@@ -3,6 +3,7 @@ import 'transaction.dart';
 
 class User {
   String email;
+  String uid;
   Archivements archivements = Archivements();
   double currentSaved;
   double currentThreshholdNextMedal;
@@ -10,6 +11,7 @@ class User {
 
   User({
     required this.email,
+    required this.uid,
     this.currentSaved = 0,
     this.currentThreshholdNextMedal = 0,
   });
