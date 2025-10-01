@@ -196,7 +196,6 @@ class _AddTransactionState extends State<AddTransaction> {
           } else {
             type = TransactionType.outgoing;
           }
-          // TODO: Index unique generieren
           await widget.db.createTransaction(
             Transaction(
               id: "",

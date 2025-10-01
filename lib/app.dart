@@ -30,14 +30,7 @@ class App extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: themeProvider.themeData,
           routes: {
-            "/dashboard": (context) => Dashboard(
-              db: db,
-              auth: auth,
-              onInit: () async {
-                db.setUser(auth.getUser());
-                await db.initialize();
-              },
-            ),
+            "/dashboard": (context) => Dashboard(db: db, auth: auth),
             "/addPage": (context) =>
                 AddTransaction(themeProvider: themeProvider, db: db),
             "/statistics": (context) =>

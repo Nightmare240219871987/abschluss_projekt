@@ -58,7 +58,6 @@ class FirestoreRepository implements DatabaseRepository {
           .doc(_currentUser!.uid)
           .collection("transactions")
           .get();
-      print("uid: ${_currentUser!.uid}");
       for (QueryDocumentSnapshot<Map<String, dynamic>> doc in list.docs) {
         ta.TransactionType type;
         switch (doc["transactionType"]) {
@@ -146,15 +145,46 @@ class FirestoreRepository implements DatabaseRepository {
   }
 
   @override
-  Future<ta.Transaction> readTransaction(String id) async {
-    // TODO: implement readTransaction
-    throw UnimplementedError();
+  Future<ta.Transaction?> readTransaction(String id) async {
+    ta.Transaction? transaction;
+    if (_currentUser != null) {
+      for (ta.Transaction t in _currentUser!.transactions) {
+        if (t.id == id) {
+          transaction = t;
+        }
+      }
+    }
+    return transaction;
   }
 
   @override
   Future<void> updateTransaction(String id, ta.Transaction transaction) async {
-    // TODO: implement updateTransaction
-    throw UnimplementedError();
+    String tt = "";
+    switch (transaction.transactionType) {
+      case ta.TransactionType.outgoing:
+        tt = "Ausgaben";
+      case ta.TransactionType.incoming:
+        tt = "Einnahmen";
+      case ta.TransactionType.saving:
+        tt = "Erspartes";
+    }
+
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("transactions")
+        .doc(id)
+        .update({
+          "continuous": true,
+          "date": Timestamp.fromDate(transaction.date),
+          "description": transaction.description,
+          "price": transaction.price,
+          "receipient": transaction.receipient,
+          "sender": transaction.sender,
+          "title": transaction.title,
+          "transactionType": tt,
+        });
+    await getAllTransactions();
   }
 
   @override
@@ -165,10 +195,5 @@ class FirestoreRepository implements DatabaseRepository {
   @override
   us.User getUser() {
     return _currentUser ?? us.User(email: "", uid: "");
-  }
-
-  @override
-  Stream<List<ta.Transaction>> transactionChanged() async* {
-    yield _currentUser != null ? _currentUser!.transactions : [];
   }
 }

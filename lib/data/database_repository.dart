@@ -10,14 +10,13 @@ abstract class DatabaseRepository {
   Future<List<Transaction>> getAllTransactions();
   void setUser(User user);
   User getUser();
-  Stream<List<Transaction>> transactionChanged();
 
   // CREATE
   Future<void> createTransaction(Transaction transaction);
   Future<void> initialize();
 
   // READ
-  Future<Transaction> readTransaction(String id);
+  Future<Transaction?> readTransaction(String id);
 
   // UPDATE
   Future<void> updateTransaction(String id, Transaction transaction);

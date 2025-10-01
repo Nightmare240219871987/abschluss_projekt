@@ -10,14 +10,8 @@ import 'package:abschluss_projekt/data/my_assets.dart';
 class Dashboard extends StatefulWidget {
   final DatabaseRepository db;
   final AuthRepository auth;
-  Function() onInit;
   // ignore: prefer_const_constructors_in_immutables
-  Dashboard({
-    super.key,
-    required this.db,
-    required this.auth,
-    required this.onInit,
-  });
+  Dashboard({super.key, required this.db, required this.auth});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -31,7 +25,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void oninit() async {
-    await widget.onInit();
+    widget.db.setUser(widget.auth.getUser());
+    await widget.db.initialize();
+    //await widget.onInit();
     setState(() {});
   }
 

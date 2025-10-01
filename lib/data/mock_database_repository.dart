@@ -194,7 +194,4 @@ class MockDatabaseRepository implements DatabaseRepository {
   User getUser() {
     return _currentUser;
   }
-
-  @override
-  Stream<List<Transaction>> transactionChanged() async* {}
 }

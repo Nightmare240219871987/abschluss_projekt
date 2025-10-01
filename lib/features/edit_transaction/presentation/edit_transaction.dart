@@ -36,23 +36,25 @@ class _EditTransactionState extends State<EditTransaction> {
   String currentChoice = "Ausgaben";
 
   Future<void> _editState(String id) async {
-    Transaction t = await widget.db.readTransaction(id);
-    _titleCtrl.text = t.title;
-    _descriptionCtrl.text = t.description;
-    _amountCtrl.text = t.price.toStringAsFixed(2);
-    _senderCtrl.text = t.sender;
-    _receipientCtrl.text = t.receipient;
-    switch (t.transactionType) {
-      case TransactionType.outgoing:
-        currentChoice = items[0];
-      case TransactionType.incoming:
-        currentChoice = items[1];
-      case TransactionType.saving:
-        currentChoice = items[2];
+    Transaction? t = await widget.db.readTransaction(id);
+    if (t != null) {
+      _titleCtrl.text = t.title;
+      _descriptionCtrl.text = t.description;
+      _amountCtrl.text = t.price.toStringAsFixed(2);
+      _senderCtrl.text = t.sender;
+      _receipientCtrl.text = t.receipient;
+      switch (t.transactionType) {
+        case TransactionType.outgoing:
+          currentChoice = items[0];
+        case TransactionType.incoming:
+          currentChoice = items[1];
+        case TransactionType.saving:
+          currentChoice = items[2];
+      }
+      isContinue = t.continuous;
+      creationTime = t.date;
+      setState(() {});
     }
-    isContinue = t.continuous;
-    creationTime = t.date;
-    setState(() {});
   }
 
   @override
