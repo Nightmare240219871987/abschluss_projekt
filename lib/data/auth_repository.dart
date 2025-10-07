@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:abschluss_projekt/common/classes/user.dart' as us;
 
 abstract class AuthRepository {
   Future<void> signInWithEmailAndPassword(
@@ -14,4 +15,5 @@ abstract class AuthRepository {
   });
   Future<void> deleteAccount();
   Stream<User?> authStateChanges();
+  us.User getUser();
 }

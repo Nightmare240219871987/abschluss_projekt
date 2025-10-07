@@ -1,13 +1,10 @@
 import 'package:abschluss_projekt/data/auth_repository.dart';
-import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  final DatabaseRepository db;
-  final AuthRepository auth;
-
-  // ignore: prefer_const_constructors_in_immutables
-  LoginScreen({super.key, required this.db, required this.auth});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -21,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // TODO: Registrierung hinzufügen
   @override
   Widget build(BuildContext context) {
+    AuthRepository auth = context.read<FirebaseAuthRepository>();
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Padding(
@@ -115,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: isCorrect
                             ? () async {
                                 if (context.mounted) {
-                                  await widget.auth.signInWithEmailAndPassword(
+                                  await auth.signInWithEmailAndPassword(
                                     _usernameController.text,
                                     _passwordController.text,
                                     onError: (Object e) {

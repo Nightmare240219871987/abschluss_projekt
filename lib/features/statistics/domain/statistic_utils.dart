@@ -61,7 +61,7 @@ Future<List<Transaction>> generateTransactionData(
   DatabaseRepository db,
 ) async {
   List<Transaction> ta = [];
-  for (Transaction t in await db.getAllTransactions()) {
+  for (Transaction t in db.getUser().transactions) {
     if (t.transactionType == type) {
       ta.add(t);
     }

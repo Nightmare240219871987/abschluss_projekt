@@ -3,14 +3,10 @@ import 'database_repository.dart';
 import '../common/classes/user.dart';
 
 class MockDatabaseRepository implements DatabaseRepository {
-  final User _currentUser = User(
-    username: "Marcusschmidt2402@Hotmail.de",
-    password: "@42Illuminati",
-    email: "Marcusschmidt2402@Hotmail.de",
-  );
+  final User _currentUser = User(email: "", uid: "");
 
   @override
-  Future<void> initialize(User user) async {
+  Future<void> initialize() async {
     await Future.delayed(Duration(milliseconds: 1000));
     _currentUser.transactions.clear();
     _currentUser.transactions.add(
@@ -116,11 +112,6 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<void> createUser(User user) async {
-    // TODO: implement createUser
-  }
-
-  @override
   Future<void> deleteTransaction(String id) async {
     Future.delayed(Duration(milliseconds: 1000));
     _currentUser.transactions.remove(
@@ -129,19 +120,9 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<void> deleteUser(String id) async {
-    // TODO: implement deleteUser
-  }
-
-  @override
   Future<Transaction> readTransaction(String id) async {
     await Future.delayed(Duration(milliseconds: 1000));
     return _currentUser.transactions.firstWhere((Transaction t) => t.id == id);
-  }
-
-  @override
-  Future<User?> readUser(String username) async {
-    return null;
   }
 
   @override
@@ -155,20 +136,12 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<User> updateUser(String id, User user) async {
-    // TODO: implement updateUser
-    throw UnimplementedError();
+  double getAvailable(int month) {
+    return getSumOfIncoming(month) - getSumOfOutgoing(month);
   }
 
   @override
-  Future<double> getAvailable(int month) async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    return await getSumOfIncoming(month) - await getSumOfOutgoing(month);
-  }
-
-  @override
-  Future<double> getSumOfIncoming(int month) async {
-    await Future.delayed(Duration(milliseconds: 500));
+  double getSumOfIncoming(int month) {
     double sumOfIncoming = 0;
     for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.incoming &&
@@ -180,8 +153,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<double> getSumOfOutgoing(int month) async {
-    await Future.delayed(Duration(milliseconds: 500));
+  double getSumOfOutgoing(int month) {
     double sumOfOutgoing = 0;
     for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.outgoing &&
@@ -197,8 +169,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<double> getSumOfSaved(int month) async {
-    await Future.delayed(Duration(milliseconds: 1000));
+  double getSumOfSaved(int month) {
     double sumOfSaved = 0;
     for (Transaction t in _currentUser.transactions) {
       if (t.transactionType == TransactionType.saving) {
@@ -215,8 +186,12 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<User> getCurrentUser() async {
-    await Future.delayed(Duration(milliseconds: 1000));
+  void setUser(User user) {
+    // TODO: implement setUser
+  }
+
+  @override
+  User getUser() {
     return _currentUser;
   }
 }

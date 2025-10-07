@@ -1,7 +1,9 @@
 import 'package:abschluss_projekt/data/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:abschluss_projekt/common/classes/user.dart' as us;
+import 'package:flutter/foundation.dart';
 
-class FirebaseAuthRepository implements AuthRepository {
+class FirebaseAuthRepository extends ChangeNotifier implements AuthRepository {
   @override
   Stream<User?> authStateChanges() {
     return FirebaseAuth.instance.authStateChanges();
@@ -54,5 +56,14 @@ class FirebaseAuthRepository implements AuthRepository {
       }
       await FirebaseAuth.instance.signOut();
     }
+  }
+
+  @override
+  us.User getUser() {
+    us.User user = us.User(
+      email: FirebaseAuth.instance.currentUser!.email!,
+      uid: FirebaseAuth.instance.currentUser!.uid,
+    );
+    return user;
   }
 }
