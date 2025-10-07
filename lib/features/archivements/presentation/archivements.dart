@@ -1,16 +1,13 @@
 import 'package:abschluss_projekt/common/classes/user.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
-import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Freischalt Mechanic implementieren
 
 // ignore: must_be_immutable
 class Archivements extends StatelessWidget {
-  DatabaseRepository db;
-
-  Archivements({super.key, required this.db});
+  Archivements({super.key});
 
   List<Image> medalImages = [
     Image.asset("assets/medaillen/m20.png"),

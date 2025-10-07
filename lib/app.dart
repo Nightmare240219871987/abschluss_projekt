@@ -1,5 +1,5 @@
 import 'package:abschluss_projekt/data/auth_repository.dart';
-import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
 import 'package:abschluss_projekt/data/shared_prefs.dart';
 import 'package:abschluss_projekt/features/add_transaction/presentation/add_transaction.dart';
 import 'package:abschluss_projekt/features/archivements/presentation/archivements.dart';
@@ -12,12 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
-  final DatabaseRepository db;
-  final AuthRepository auth;
-  const App({super.key, required this.db, required this.auth});
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthRepository auth = context.read<FirebaseAuthRepository>();
     final themeProvider = Provider.of<ThemeProvider>(context);
     if (themeProvider.isDarkMode != loadDarkmode()) {
       themeProvider.setDarkTheme(loadDarkmode());
@@ -30,15 +29,12 @@ class App extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: themeProvider.themeData,
           routes: {
-            "/dashboard": (context) => Dashboard(db: db, auth: auth),
-            "/addPage": (context) =>
-                AddTransaction(themeProvider: themeProvider, db: db),
-            "/statistics": (context) =>
-                StatisticsDashboard(db: db, themeProvider: themeProvider),
-            "/archivements": (context) => Archivements(db: db),
-            "/settings": (context) =>
-                Settings(themeProvider: themeProvider, auth: auth),
-            "/login": (context) => LoginScreen(db: db, auth: auth),
+            "/dashboard": (context) => Dashboard(),
+            "/addPage": (context) => AddTransaction(),
+            "/statistics": (context) => StatisticsDashboard(),
+            "/archivements": (context) => Archivements(),
+            "/settings": (context) => Settings(),
+            "/login": (context) => LoginScreen(),
           },
           initialRoute: snapshot.hasData ? "/dashboard" : "/login",
         );

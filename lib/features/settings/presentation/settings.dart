@@ -1,14 +1,14 @@
 import 'package:abschluss_projekt/data/auth_repository.dart';
+import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
 import 'package:abschluss_projekt/data/shared_prefs.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
-  final ThemeProvider themeProvider;
-  final AuthRepository auth;
-  const Settings({super.key, required this.themeProvider, required this.auth});
+  const Settings({super.key});
   // TODO: Sprachunterstüzung
   // TODO: User löschen implementieren
   @override
@@ -18,6 +18,8 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
+    ThemeProvider themeProvider = context.read<ThemeProvider>();
+    AuthRepository auth = context.read<FirebaseAuthRepository>();
     return Scaffold(
       appBar: MyAppBar(),
       body: Padding(
@@ -27,11 +29,11 @@ class _SettingsState extends State<Settings> {
             ListTile(
               leading: Text("Darkmode"),
               trailing: Switch(
-                value: widget.themeProvider.isDarkMode,
+                value: themeProvider.isDarkMode,
                 onChanged: (value) {
                   saveDarkmode(value);
                   setState(() {
-                    widget.themeProvider.setDarkTheme(value);
+                    themeProvider.setDarkTheme(value);
                   });
                 },
               ),
@@ -40,7 +42,7 @@ class _SettingsState extends State<Settings> {
               leading: Text("Account"),
               trailing: TextButton(
                 onPressed: () async {
-                  await widget.auth.signOut();
+                  await auth.signOut();
                   setState(() {});
                 },
                 child: Text("Ausloggen"),

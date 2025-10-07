@@ -3,19 +3,13 @@ import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
 class AddTransaction extends StatefulWidget {
-  final DatabaseRepository db;
-  final ThemeProvider themeProvider;
-
-  const AddTransaction({
-    super.key,
-    required this.themeProvider,
-    required this.db,
-  });
+  const AddTransaction({super.key});
 
   @override
   State<AddTransaction> createState() => _AddTransactionState();
@@ -27,7 +21,7 @@ class _AddTransactionState extends State<AddTransaction> {
   final TextEditingController _amountCtrl = TextEditingController();
   final TextEditingController _senderCtrl = TextEditingController();
   final TextEditingController _receipientCtrl = TextEditingController();
-  int _index = 20;
+  int index = 20;
 
   List<String> items = ["Ausgaben", "Einnahmen", "Erspartes"];
   bool isContinue = false;
@@ -43,6 +37,8 @@ class _AddTransactionState extends State<AddTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider themeProvider = context.read<ThemeProvider>();
+    DatabaseRepository db = context.read<FirestoreRepository>();
     return Scaffold(
       appBar: MyAppBar(),
       body: Padding(
@@ -104,7 +100,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   labelText: "Titel",
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -116,7 +112,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   labelText: "Beschreibung",
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -128,7 +124,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   labelText: "Betrag",
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -140,7 +136,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   label: Text("Sender"),
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -151,7 +147,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   label: Text("Empfänger"),
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -196,7 +192,7 @@ class _AddTransactionState extends State<AddTransaction> {
           } else {
             type = TransactionType.outgoing;
           }
-          await widget.db.createTransaction(
+          await db.createTransaction(
             Transaction(
               id: "",
               title: _titleCtrl.text,
@@ -209,7 +205,7 @@ class _AddTransactionState extends State<AddTransaction> {
               sender: _senderCtrl.text,
             ),
           );
-          _index++;
+          index++;
           if (context.mounted) {
             Navigator.of(context).pop();
           }

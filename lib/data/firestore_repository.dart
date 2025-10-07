@@ -3,8 +3,9 @@ import 'package:abschluss_projekt/common/classes/user.dart' as us;
 import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
-class FirestoreRepository implements DatabaseRepository {
+class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
   us.User? _currentUser;
   @override
   Future<void> createTransaction(ta.Transaction transaction) async {

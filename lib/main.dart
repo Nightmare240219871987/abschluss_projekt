@@ -1,9 +1,6 @@
 import 'package:abschluss_projekt/app.dart';
-import 'package:abschluss_projekt/data/auth_repository.dart';
-import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
 import 'package:abschluss_projekt/data/firestore_repository.dart';
-import 'package:abschluss_projekt/data/mock_database_repository.dart';
 import 'package:abschluss_projekt/data/shared_prefs.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,17 +13,18 @@ Future<void> main() async {
   // TODO: Animation -> Splash screen
   // TODO: Übersetzung in andere Sprachen (intl Flutter package)
   WidgetsFlutterBinding.ensureInitialized();
-  DatabaseRepository db = FirestoreRepository();
-  AuthRepository auth = FirebaseAuthRepository();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initializeSharedPrefs();
-  //await db.initialize();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: App(db: db, auth: auth),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => FirebaseAuthRepository()),
+        ChangeNotifierProvider(create: (context) => FirestoreRepository()),
+      ],
+      child: App(),
     ),
   );
 }

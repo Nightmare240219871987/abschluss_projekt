@@ -2,37 +2,43 @@ import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/auth_repository.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
+import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:abschluss_projekt/features/dashboard/domain/blue_card.dart';
 import 'package:flutter/material.dart';
 import 'package:abschluss_projekt/data/my_assets.dart';
+import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
 class Dashboard extends StatefulWidget {
-  final DatabaseRepository db;
-  final AuthRepository auth;
-  // ignore: prefer_const_constructors_in_immutables
-  Dashboard({super.key, required this.db, required this.auth});
+  const Dashboard({super.key});
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  bool firstBuild = true;
+
   @override
   void initState() {
-    oninit();
     super.initState();
   }
 
-  void oninit() async {
-    widget.db.setUser(widget.auth.getUser());
-    await widget.db.initialize();
-    //await widget.onInit();
+  void oninit(DatabaseRepository db, AuthRepository auth) async {
+    db.setUser(auth.getUser());
+    await db.initialize();
+    firstBuild = false;
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    AuthRepository auth = context.read<FirebaseAuthRepository>();
+    DatabaseRepository db = context.read<FirestoreRepository>();
+    if (firstBuild) {
+      oninit(db, auth);
+    }
+
     return Scaffold(
       appBar: MyAppBar(),
       body: Padding(
@@ -45,7 +51,7 @@ class _DashboardState extends State<Dashboard> {
               BlueCard(
                 title: "Verfügbar",
                 ammount:
-                    "${widget.db.getAvailable(DateTime.now().month).toStringAsFixed(2)}€",
+                    "${db.getAvailable(DateTime.now().month).toStringAsFixed(2)}€",
                 image: Misc.available,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
@@ -57,7 +63,7 @@ class _DashboardState extends State<Dashboard> {
               BlueCard(
                 title: "Einnahmen",
                 ammount:
-                    "${widget.db.getSumOfIncoming(DateTime.now().month).toStringAsFixed(2)}€",
+                    "${db.getSumOfIncoming(DateTime.now().month).toStringAsFixed(2)}€",
                 image: Misc.incoming,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
@@ -69,7 +75,7 @@ class _DashboardState extends State<Dashboard> {
               BlueCard(
                 title: "Ausgaben",
                 ammount:
-                    "${widget.db.getSumOfOutgoing(DateTime.now().month).toStringAsFixed(2)}€",
+                    "${db.getSumOfOutgoing(DateTime.now().month).toStringAsFixed(2)}€",
                 image: Misc.outgoing,
                 titleColor: Color.fromARGB(255, 241, 103, 93),
                 icon: Icon(
@@ -82,7 +88,7 @@ class _DashboardState extends State<Dashboard> {
               BlueCard(
                 title: "Sparen",
                 ammount:
-                    "${widget.db.getSumOfSaved(DateTime.now().month).toStringAsFixed(2)}€",
+                    "${db.getSumOfSaved(DateTime.now().month).toStringAsFixed(2)}€",
                 image: Misc.save,
                 icon: Icon(
                   Icons.arrow_upward_rounded,
