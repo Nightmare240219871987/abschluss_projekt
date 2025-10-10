@@ -2,12 +2,8 @@ import 'package:abschluss_projekt/common/classes/transaction.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
-import 'package:abschluss_projekt/data/database_repository.dart';
-import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:abschluss_projekt/features/statistics/domain/transaction_details.dart';
-import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 // TODO: Continuous Mechanics implementieren
 class StatisticsDashboard extends StatefulWidget {
@@ -18,8 +14,6 @@ class StatisticsDashboard extends StatefulWidget {
 }
 
 class _StatisticsDashboardState extends State<StatisticsDashboard> {
-  late ThemeProvider themeProvider;
-  late DatabaseRepository db;
   final List<Widget> _statistics = [];
   int _currentIndex = 0;
   bool isSelectedB1 = true;
@@ -29,28 +23,14 @@ class _StatisticsDashboardState extends State<StatisticsDashboard> {
   @override
   void initState() {
     super.initState();
-    themeProvider = context.read<ThemeProvider>();
-    db = context.read<FirestoreRepository>();
     _statistics.add(
-      TransactionDetails(
-        db: db,
-        transactionType: TransactionType.incoming,
-        themeProvider: themeProvider,
-      ),
+      TransactionDetails(transactionType: TransactionType.incoming),
     );
     _statistics.add(
-      TransactionDetails(
-        db: db,
-        transactionType: TransactionType.outgoing,
-        themeProvider: themeProvider,
-      ),
+      TransactionDetails(transactionType: TransactionType.outgoing),
     );
     _statistics.add(
-      TransactionDetails(
-        db: db,
-        transactionType: TransactionType.saving,
-        themeProvider: themeProvider,
-      ),
+      TransactionDetails(transactionType: TransactionType.saving),
     );
   }
 
