@@ -17,28 +17,21 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  bool firstBuild = true;
-
   @override
   void initState() {
+    startUp(context);
     super.initState();
   }
 
-  void oninit(DatabaseRepository db, AuthRepository auth) async {
+  Future<void> startUp(BuildContext context) async {
+    AuthRepository auth = context.read<FirebaseAuthRepository>();
+    DatabaseRepository db = context.read<FirestoreRepository>();
     db.setUser(auth.getUser());
     await db.initialize();
-    firstBuild = false;
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    AuthRepository auth = context.read<FirebaseAuthRepository>();
-    DatabaseRepository db = context.read<FirestoreRepository>();
-    if (firstBuild) {
-      oninit(db, auth);
-    }
-
     return Scaffold(
       appBar: MyAppBar(),
       body: Padding(
@@ -48,53 +41,66 @@ class _DashboardState extends State<Dashboard> {
             mainAxisSize: MainAxisSize.max,
             spacing: 10,
             children: [
-              BlueCard(
-                title: "Verfügbar",
-                ammount:
-                    "${db.getAvailable(DateTime.now().month).toStringAsFixed(2)}€",
-                image: Misc.available,
-                icon: Icon(
-                  Icons.arrow_upward_rounded,
-                  color: Colors.green,
-                  size: 28,
-                ),
+              Consumer<FirestoreRepository>(
+                builder: (context, value, child) {
+                  return BlueCard(
+                    title: "Verfügbar",
+                    ammount:
+                        "${value.getAvailable(DateTime.now().month).toStringAsFixed(2)}€",
+                    image: Misc.available,
+                    icon: Icon(
+                      Icons.arrow_upward_rounded,
+                      color: Colors.green,
+                      size: 28,
+                    ),
+                  );
+                },
               ),
-
-              BlueCard(
-                title: "Einnahmen",
-                ammount:
-                    "${db.getSumOfIncoming(DateTime.now().month).toStringAsFixed(2)}€",
-                image: Misc.incoming,
-                icon: Icon(
-                  Icons.arrow_upward_rounded,
-                  color: Colors.green,
-                  size: 28,
-                ),
+              Consumer<FirestoreRepository>(
+                builder: (context, value, child) {
+                  return BlueCard(
+                    title: "Einnahmen",
+                    ammount:
+                        "${value.getSumOfIncoming(DateTime.now().month).toStringAsFixed(2)}€",
+                    image: Misc.incoming,
+                    icon: Icon(
+                      Icons.arrow_upward_rounded,
+                      color: Colors.green,
+                      size: 28,
+                    ),
+                  );
+                },
               ),
-
-              BlueCard(
-                title: "Ausgaben",
-                ammount:
-                    "${db.getSumOfOutgoing(DateTime.now().month).toStringAsFixed(2)}€",
-                image: Misc.outgoing,
-                titleColor: Color.fromARGB(255, 241, 103, 93),
-                icon: Icon(
-                  Icons.arrow_downward_rounded,
-                  color: Color.fromARGB(255, 241, 103, 93),
-                  size: 28,
-                ),
+              Consumer<FirestoreRepository>(
+                builder: (context, value, child) {
+                  return BlueCard(
+                    title: "Ausgaben",
+                    ammount:
+                        "${value.getSumOfOutgoing(DateTime.now().month).toStringAsFixed(2)}€",
+                    image: Misc.outgoing,
+                    titleColor: Color.fromARGB(255, 241, 103, 93),
+                    icon: Icon(
+                      Icons.arrow_downward_rounded,
+                      color: Color.fromARGB(255, 241, 103, 93),
+                      size: 28,
+                    ),
+                  );
+                },
               ),
-
-              BlueCard(
-                title: "Sparen",
-                ammount:
-                    "${db.getSumOfSaved(DateTime.now().month).toStringAsFixed(2)}€",
-                image: Misc.save,
-                icon: Icon(
-                  Icons.arrow_upward_rounded,
-                  color: Colors.green,
-                  size: 28,
-                ),
+              Consumer<FirestoreRepository>(
+                builder: (context, value, child) {
+                  return BlueCard(
+                    title: "Sparen",
+                    ammount:
+                        "${value.getSumOfSaved(DateTime.now().month).toStringAsFixed(2)}€",
+                    image: Misc.save,
+                    icon: Icon(
+                      Icons.arrow_upward_rounded,
+                      color: Colors.green,
+                      size: 28,
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -102,9 +108,8 @@ class _DashboardState extends State<Dashboard> {
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 8,
-        onPressed: () async {
-          await Navigator.pushNamed(context, "/addPage");
-          setState(() {});
+        onPressed: () {
+          Navigator.pushNamed(context, "/addPage");
         },
         child: Icon(Icons.add),
       ),

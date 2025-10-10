@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
-  // TODO: Sprachunterstüzung
   // TODO: User löschen implementieren
   @override
   State<Settings> createState() => _SettingsState();

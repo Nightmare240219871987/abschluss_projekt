@@ -2,27 +2,24 @@ import 'package:abschluss_projekt/common/classes/transaction.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class EditTransaction extends StatefulWidget {
-  final DatabaseRepository db;
-  final ThemeProvider themeProvider;
   String id;
 
-  EditTransaction({
-    super.key,
-    required this.db,
-    required this.themeProvider,
-    required this.id,
-  });
+  EditTransaction({super.key, required this.id});
 
   @override
   State<EditTransaction> createState() => _EditTransactionState();
 }
 
 class _EditTransactionState extends State<EditTransaction> {
+  late DatabaseRepository db;
+  late ThemeProvider themeProvider;
   final TextEditingController _titleCtrl = TextEditingController();
   final TextEditingController _descriptionCtrl = TextEditingController();
   final TextEditingController _amountCtrl = TextEditingController();
@@ -36,7 +33,7 @@ class _EditTransactionState extends State<EditTransaction> {
   String currentChoice = "Ausgaben";
 
   Future<void> _editState(String id) async {
-    Transaction? t = await widget.db.readTransaction(id);
+    Transaction? t = await db.readTransaction(id);
     if (t != null) {
       _titleCtrl.text = t.title;
       _descriptionCtrl.text = t.description;
@@ -59,6 +56,8 @@ class _EditTransactionState extends State<EditTransaction> {
 
   @override
   void initState() {
+    db = context.read<FirestoreRepository>();
+    themeProvider = context.read<ThemeProvider>();
     super.initState();
     _editState(widget.id);
   }
@@ -121,7 +120,7 @@ class _EditTransactionState extends State<EditTransaction> {
                 decoration: InputDecoration(
                   labelText: "Titel",
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -133,7 +132,7 @@ class _EditTransactionState extends State<EditTransaction> {
                 decoration: InputDecoration(
                   labelText: "Beschreibung",
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -145,7 +144,7 @@ class _EditTransactionState extends State<EditTransaction> {
                 decoration: InputDecoration(
                   labelText: "Betrag",
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -157,7 +156,7 @@ class _EditTransactionState extends State<EditTransaction> {
                 decoration: InputDecoration(
                   label: Text("Sender"),
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -168,7 +167,7 @@ class _EditTransactionState extends State<EditTransaction> {
                 decoration: InputDecoration(
                   label: Text("Empfänger"),
                   labelStyle: TextStyle(
-                    color: widget.themeProvider.isDarkMode
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -213,7 +212,7 @@ class _EditTransactionState extends State<EditTransaction> {
           } else {
             type = TransactionType.outgoing;
           }
-          await widget.db.updateTransaction(
+          await db.updateTransaction(
             widget.id,
             Transaction(
               id: "",
