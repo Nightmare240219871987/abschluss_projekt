@@ -114,11 +114,7 @@ List<ListTile> getListTiles(
               onPressed: () async {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => EditTransaction(
-                      themeProvider: themeProvider,
-                      db: db,
-                      id: t.id,
-                    ),
+                    builder: (context) => EditTransaction(id: t.id),
                   ),
                 );
                 onEdit();

@@ -87,6 +87,7 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
       }
       _currentUser!.transactions = transactions;
     }
+    notifyListeners();
     return transactions;
   }
 

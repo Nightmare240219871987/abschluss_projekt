@@ -38,7 +38,6 @@ class _AddTransactionState extends State<AddTransaction> {
   @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
-    DatabaseRepository db = context.read<FirestoreRepository>();
     return Scaffold(
       appBar: MyAppBar(),
       body: Padding(
@@ -112,7 +111,9 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   labelText: "Beschreibung",
                   labelStyle: TextStyle(
-                    color: themeProvider.isDarkMode
+                    color:
+                        themeProvider
+                            .isDarkMode // kann lokalen theme Provider enthalten
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -124,7 +125,9 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   labelText: "Betrag",
                   labelStyle: TextStyle(
-                    color: themeProvider.isDarkMode
+                    color:
+                        themeProvider
+                            .isDarkMode // kann lokalen themeProvider enthalten
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -182,6 +185,7 @@ class _AddTransactionState extends State<AddTransaction> {
       floatingActionButton: FloatingActionButton(
         elevation: 8,
         onPressed: () async {
+          DatabaseRepository db = context.read<FirestoreRepository>();
           TransactionType type;
           if (currentChoice == "Ausgaben") {
             type = TransactionType.outgoing;
