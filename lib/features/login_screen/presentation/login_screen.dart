@@ -12,9 +12,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameCtrl = TextEditingController();
+  final TextEditingController _passwordCtrl = TextEditingController();
   bool isCorrect = false;
+
   // TODO: Registrierung hinzufügen
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             TextFormField(
                               onChanged: (value) =>
                                   _formKey.currentState!.validate(),
-                              controller: _usernameController,
+                              controller: _usernameCtrl,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: "Username",
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             TextFormField(
                               onChanged: (value) =>
                                   _formKey.currentState!.validate(),
-                              controller: _passwordController,
+                              controller: _passwordCtrl,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: "Password",
@@ -114,8 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? () async {
                                 if (context.mounted) {
                                   await auth.signInWithEmailAndPassword(
-                                    _usernameController.text,
-                                    _passwordController.text,
+                                    _usernameCtrl.text,
+                                    _passwordCtrl.text,
                                     onError: (Object e) {
                                       ScaffoldMessenger.of(
                                         context,
