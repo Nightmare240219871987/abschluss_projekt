@@ -3,17 +3,18 @@ import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameCtrl = TextEditingController();
   final TextEditingController _passwordCtrl = TextEditingController();
+  final TextEditingController _passwordConfirmCtrl = TextEditingController();
   bool isCorrect = false;
 
   @override
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     spacing: 8,
                     children: [
                       Text(
-                        "Login",
+                        "Registrierung",
                         style: TextStyle(
                           fontSize: 38,
                           fontWeight: FontWeight.bold,
@@ -99,9 +100,59 @@ class _LoginScreenState extends State<LoginScreen> {
                                     return "Das Passwort muss Zahlen enthalten.";
                                   }
                                 }
-                                setState(() {
-                                  isCorrect = true;
-                                });
+                                if (_passwordCtrl.text ==
+                                    _passwordConfirmCtrl.text) {
+                                  setState(() {
+                                    isCorrect = true;
+                                  });
+                                }
+
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              onChanged: (value) =>
+                                  _formKey.currentState!.validate(),
+                              controller: _passwordConfirmCtrl,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Password Wiederholung",
+                                hintText:
+                                    "Geben Sie hier Ihr Passwort erneut ein.",
+                              ),
+                              obscureText: true,
+                              validator: (value) {
+                                isCorrect = false;
+                                RegExp reExtra = RegExp(r"[!@#$%^&*()]");
+                                RegExp reUpperCase = RegExp(r"[A-Z]");
+                                RegExp reLowerCase = RegExp(r"[a-z]");
+                                RegExp reDigits = RegExp(r"\d");
+                                if (value == null) {
+                                  return "das Password darf nicht leer sein.";
+                                } else {
+                                  if (value.length <= 7) {
+                                    return "Das Passwort muss mindestens 8 zeichen haben.";
+                                  }
+                                  if (!reExtra.hasMatch(value)) {
+                                    return "Das Passwort muss Sonderzeichen enthalten";
+                                  }
+                                  if (!reUpperCase.hasMatch(value)) {
+                                    return "Das Passwort muss große Buchstaben enthalten.";
+                                  }
+                                  if (!reLowerCase.hasMatch(value)) {
+                                    return "Das Passwort muss kleine Buchstaben enthalten.";
+                                  }
+                                  if (!reDigits.hasMatch(value)) {
+                                    return "Das Passwort muss Zahlen enthalten.";
+                                  }
+                                }
+                                if (_passwordCtrl.text ==
+                                    _passwordConfirmCtrl.text) {
+                                  setState(() {
+                                    isCorrect = true;
+                                  });
+                                }
+
                                 return null;
                               },
                             ),
@@ -113,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: isCorrect
                             ? () async {
                                 if (context.mounted) {
-                                  await auth.signInWithEmailAndPassword(
+                                  await auth.createAccountWithEmailAndPassword(
                                     _usernameCtrl.text,
                                     _passwordCtrl.text,
                                     onError: (Object e) {
@@ -122,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ).showSnackBar(
                                         SnackBar(
                                           content: const Text(
-                                            "Login fehlgeschlagen.",
+                                            "Registrierung fehlgeschlagen",
                                           ),
                                         ),
                                       );
@@ -133,14 +184,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             : null,
                         child: SizedBox(
                           width: double.infinity,
-                          child: Text("Login", textAlign: TextAlign.center),
+                          child: Text(
+                            "Registrierung abschließen",
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed("/register");
-                        },
-                        child: Text("Registrierung"),
                       ),
                     ],
                   ),

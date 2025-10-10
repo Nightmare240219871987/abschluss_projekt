@@ -12,6 +12,7 @@ Future<void> main() async {
   // TODO: QR Code Scanner Seite erstellen
   // TODO: Animation -> Splash screen
   // TODO: Übersetzung in andere Sprachen (intl Flutter package)
+  // TODO: Routing Policy bearbeiten.
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

@@ -6,6 +6,7 @@ import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:abschluss_projekt/features/edit_transaction/domain/tranaction_type_utils.dart';
 
 // ignore: must_be_immutable
 class EditTransaction extends StatefulWidget {
@@ -25,8 +26,7 @@ class _EditTransactionState extends State<EditTransaction> {
   final TextEditingController _amountCtrl = TextEditingController();
   final TextEditingController _senderCtrl = TextEditingController();
   final TextEditingController _receipientCtrl = TextEditingController();
-
-  List<String> items = ["Ausgaben", "Einnahmen", "Erspartes"];
+  final List<String> items = ["Ausgaben", "Einnahmen", "Erspartes"];
   bool isContinue = false;
   DateTime? creationTime;
 
@@ -40,14 +40,9 @@ class _EditTransactionState extends State<EditTransaction> {
       _amountCtrl.text = t.price.toStringAsFixed(2);
       _senderCtrl.text = t.sender;
       _receipientCtrl.text = t.receipient;
-      switch (t.transactionType) {
-        case TransactionType.outgoing:
-          currentChoice = items[0];
-        case TransactionType.incoming:
-          currentChoice = items[1];
-        case TransactionType.saving:
-          currentChoice = items[2];
-      }
+      currentChoice = TranactionTypeUtils.serializeTransactionType(
+        t.transactionType,
+      );
       isContinue = t.continuous;
       creationTime = t.date;
       setState(() {});
@@ -202,16 +197,9 @@ class _EditTransactionState extends State<EditTransaction> {
       floatingActionButton: FloatingActionButton(
         elevation: 8,
         onPressed: () async {
-          TransactionType type;
-          if (currentChoice == "Ausgaben") {
-            type = TransactionType.outgoing;
-          } else if (currentChoice == "Einnahmen") {
-            type = TransactionType.incoming;
-          } else if (currentChoice == "Erspartes") {
-            type = TransactionType.saving;
-          } else {
-            type = TransactionType.outgoing;
-          }
+          TransactionType type = TranactionTypeUtils.deserializeTransactionType(
+            currentChoice,
+          );
           await db.updateTransaction(
             widget.id,
             Transaction(
