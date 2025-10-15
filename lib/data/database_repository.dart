@@ -23,4 +23,5 @@ abstract class DatabaseRepository {
 
   // DELETE
   Future<void> deleteTransaction(String id);
+  Future<void> deleteUser();
 }

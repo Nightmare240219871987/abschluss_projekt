@@ -1,5 +1,7 @@
 import 'package:abschluss_projekt/data/auth_repository.dart';
+import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
+import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:abschluss_projekt/data/shared_prefs.dart';
 import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
@@ -19,6 +21,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     AuthRepository auth = context.read<FirebaseAuthRepository>();
+    DatabaseRepository db = context.read<FirestoreRepository>();
     return Scaffold(
       appBar: MyAppBar(),
       body: Padding(
@@ -31,9 +34,7 @@ class _SettingsState extends State<Settings> {
                 value: themeProvider.isDarkMode,
                 onChanged: (value) {
                   saveDarkmode(value);
-                  setState(() {
-                    themeProvider.setDarkTheme(value);
-                  });
+                  themeProvider.setDarkTheme(value);
                 },
               ),
             ),
@@ -45,6 +46,17 @@ class _SettingsState extends State<Settings> {
                   setState(() {});
                 },
                 child: Text("Ausloggen"),
+              ),
+            ),
+            ListTile(
+              leading: null,
+              trailing: TextButton(
+                onPressed: () async {
+                  if (context.mounted) {
+                    await db.deleteUser();
+                  }
+                },
+                child: Text("Löschen", style: TextStyle(color: Colors.red)),
               ),
             ),
           ],
