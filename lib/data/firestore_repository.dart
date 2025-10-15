@@ -198,4 +198,33 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
   us.User getUser() {
     return _currentUser ?? us.User(email: "", uid: "");
   }
+
+  @override
+  Future<void> deleteUser() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    QuerySnapshot transactions = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .collection("transactions")
+        .get();
+    for (QueryDocumentSnapshot t in transactions.docs) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .collection("transactions")
+          .doc(t.id)
+          .delete();
+    }
+
+    await FirebaseFirestore.instance.collection("users").doc(uid).delete();
+
+    try {
+      await FirebaseAuth.instance.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      rethrow;
+    }
+
+    _currentUser = null;
+    notifyListeners();
+  }
 }

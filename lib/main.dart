@@ -10,9 +10,11 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   // TODO: QR Code Scanner Seite erstellen
+  // TODO: KI Package finden installieren und mit daten trainieren.
   // TODO: Animation -> Splash screen
   // TODO: Übersetzung in andere Sprachen (intl Flutter package)
-  // TODO: Routing Policy bearbeiten.
+  // TODO: Routing Policy bearbeiten. Entfernen vom Routing und ersetzen mit Landing Page und Pages
+  // TODO: Entfernen des Benutzers korrigieren
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
