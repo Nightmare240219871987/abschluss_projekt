@@ -89,8 +89,16 @@ List<ListTile> getListTiles(List<Transaction> ta, BuildContext context) {
   List<ListTile> listTiles = [];
   for (int i = 0; i < 12; i++) {
     for (Transaction t in ta) {
-      if (t.date.month == i + 1) {
-        monthly[i].add(t);
+      if (t.continuous) {
+        // Continuierliche Ausgaben
+        if (t.date.month == i + 1) {
+          monthly[i].add(t);
+        }
+      } else {
+        // Einmalige Ausgaben
+        if (t.date.month == i + 1) {
+          monthly[i].add(t);
+        }
       }
     }
   }

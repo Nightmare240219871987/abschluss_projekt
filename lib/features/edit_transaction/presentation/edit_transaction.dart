@@ -1,6 +1,4 @@
 import 'package:abschluss_projekt/common/classes/transaction.dart';
-import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
-import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
@@ -60,7 +58,10 @@ class _EditTransactionState extends State<EditTransaction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: AppBar(
+        title: Text("Hinzufügen"),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -220,7 +221,6 @@ class _EditTransactionState extends State<EditTransaction> {
         },
         child: Icon(Icons.edit),
       ),
-      bottomNavigationBar: MyNavigationBar(),
     );
   }
 

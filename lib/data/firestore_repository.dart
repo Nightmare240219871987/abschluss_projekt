@@ -220,7 +220,7 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
 
     try {
       await FirebaseAuth.instance.currentUser!.delete();
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       rethrow;
     }
 
