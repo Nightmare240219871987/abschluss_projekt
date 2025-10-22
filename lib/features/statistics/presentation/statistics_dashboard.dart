@@ -1,7 +1,5 @@
 import 'package:abschluss_projekt/common/classes/transaction.dart';
-import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
-import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/features/statistics/domain/transaction_details.dart';
 import 'package:flutter/material.dart';
 
@@ -36,109 +34,95 @@ class _StatisticsDashboardState extends State<StatisticsDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            spacing: 8,
-            children: [
-              Row(
-                spacing: 20,
-                children: [
-                  Expanded(
-                    child: LinearProgressIndicator(value: 0.66, minHeight: 25),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SingleChildScrollView(
+        child: Column(
+          spacing: 8,
+          children: [
+            Row(
+              spacing: 20,
+              children: [
+                Expanded(
+                  child: LinearProgressIndicator(value: 0.66, minHeight: 25),
+                ),
+                Image.asset("assets/misc/medal.png", height: 64),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  width: 96,
+                  height: 48,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Image.asset("assets/misc/medal.png", height: 48),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 18,
+                        child: Image.asset("assets/misc/medal.png", height: 48),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 36,
+                        child: Image.asset("assets/misc/medal.png", height: 48),
+                      ),
+                    ],
                   ),
-                  Image.asset("assets/misc/medal.png", height: 64),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    width: 96,
-                    height: 48,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Image.asset(
-                            "assets/misc/medal.png",
-                            height: 48,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 18,
-                          child: Image.asset(
-                            "assets/misc/medal.png",
-                            height: 48,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 36,
-                          child: Image.asset(
-                            "assets/misc/medal.png",
-                            height: 48,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ColorizedIconButton(
-                    icon: Icon(Icons.input_outlined),
-                    isSelected: isSelectedB1,
-                    onPressed: () {
-                      setState(() {
-                        isSelectedB1 = true;
-                        isSelectedB2 = false;
-                        isSelectedB3 = false;
-                        _currentIndex = 0;
-                      });
-                    },
-                  ),
-                  ColorizedIconButton(
-                    icon: Icon(Icons.output_outlined),
-                    isSelected: isSelectedB2,
-                    onPressed: () {
-                      setState(() {
-                        isSelectedB1 = false;
-                        isSelectedB2 = true;
-                        isSelectedB3 = false;
-                        _currentIndex = 1;
-                      });
-                    },
-                  ),
-                  ColorizedIconButton(
-                    icon: Icon(Icons.euro_outlined),
-                    isSelected: isSelectedB3,
-                    onPressed: () {
-                      setState(() {
-                        isSelectedB1 = false;
-                        isSelectedB2 = false;
-                        isSelectedB3 = true;
-                        _currentIndex = 2;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              _statistics[_currentIndex],
-            ],
-          ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ColorizedIconButton(
+                  icon: Icon(Icons.input_outlined),
+                  isSelected: isSelectedB1,
+                  onPressed: () {
+                    setState(() {
+                      isSelectedB1 = true;
+                      isSelectedB2 = false;
+                      isSelectedB3 = false;
+                      _currentIndex = 0;
+                    });
+                  },
+                ),
+                ColorizedIconButton(
+                  icon: Icon(Icons.output_outlined),
+                  isSelected: isSelectedB2,
+                  onPressed: () {
+                    setState(() {
+                      isSelectedB1 = false;
+                      isSelectedB2 = true;
+                      isSelectedB3 = false;
+                      _currentIndex = 1;
+                    });
+                  },
+                ),
+                ColorizedIconButton(
+                  icon: Icon(Icons.euro_outlined),
+                  isSelected: isSelectedB3,
+                  onPressed: () {
+                    setState(() {
+                      isSelectedB1 = false;
+                      isSelectedB2 = false;
+                      isSelectedB3 = true;
+                      _currentIndex = 2;
+                    });
+                  },
+                ),
+              ],
+            ),
+            _statistics[_currentIndex],
+          ],
         ),
       ),
-
-      bottomNavigationBar: MyNavigationBar(),
     );
   }
 }

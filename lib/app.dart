@@ -3,6 +3,7 @@ import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
 import 'package:abschluss_projekt/data/shared_prefs.dart';
 import 'package:abschluss_projekt/features/add_transaction/presentation/add_transaction.dart';
 import 'package:abschluss_projekt/features/archivements/presentation/archivements.dart';
+import 'package:abschluss_projekt/features/landing_page/landing_page.dart';
 import 'package:abschluss_projekt/features/login_screen/presentation/login_screen.dart';
 import 'package:abschluss_projekt/features/login_screen/presentation/register_screen.dart';
 import 'package:abschluss_projekt/features/settings/presentation/settings.dart';
@@ -38,7 +39,8 @@ class App extends StatelessWidget {
             "/login": (context) => LoginScreen(),
             "/register": (context) => RegisterScreen(),
           },
-          initialRoute: snapshot.hasData ? "/dashboard" : "/login",
+          // initialRoute: snapshot.hasData ? "/dashboard" : "/login",
+          home: snapshot.hasData ? LandingPage() : LoginScreen(),
         );
       },
     );

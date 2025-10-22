@@ -1,14 +1,16 @@
-import 'package:abschluss_projekt/common/classes/user.dart';
-import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
-import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Freischalt Mechanic implementieren
 
 // ignore: must_be_immutable
-class Archivements extends StatelessWidget {
-  Archivements({super.key});
+class Archivements extends StatefulWidget {
+  const Archivements({super.key});
 
+  @override
+  State<Archivements> createState() => _ArchivementsState();
+}
+
+class _ArchivementsState extends State<Archivements> {
   List<Image> medalImages = [
     Image.asset("assets/medaillen/m20.png"),
     Image.asset("assets/medaillen/m50.png"),
@@ -29,10 +31,8 @@ class Archivements extends StatelessWidget {
 
   List<Badge> medalBadges = [];
 
-  User? user;
-
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     for (int i = 0; i < medalImages.length; i++) {
       medalBadges.add(
         Badge(
@@ -42,16 +42,16 @@ class Archivements extends StatelessWidget {
         ),
       );
     }
+    super.initState();
+  }
 
-    return Scaffold(
-      appBar: MyAppBar(),
-      body: GridView(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-        ),
-        children: medalBadges,
+  @override
+  Widget build(BuildContext context) {
+    return GridView(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
       ),
-      bottomNavigationBar: MyNavigationBar(),
+      children: medalBadges,
     );
   }
 }

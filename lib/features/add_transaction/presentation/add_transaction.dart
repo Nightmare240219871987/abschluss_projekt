@@ -1,7 +1,5 @@
 import 'package:abschluss_projekt/common/classes/transaction.dart';
-import 'package:abschluss_projekt/common/widgets/my_app_bar.dart';
 import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
-import 'package:abschluss_projekt/common/widgets/my_navigation_bar.dart';
 import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:abschluss_projekt/themes/theme_provider.dart';
@@ -39,7 +37,10 @@ class _AddTransactionState extends State<AddTransaction> {
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = context.read<ThemeProvider>();
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: AppBar(
+        title: Text("Hinzufügen"),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -216,7 +217,6 @@ class _AddTransactionState extends State<AddTransaction> {
         },
         child: Icon(Icons.add),
       ),
-      bottomNavigationBar: MyNavigationBar(),
     );
   }
 
