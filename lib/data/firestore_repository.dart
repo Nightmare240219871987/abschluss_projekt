@@ -102,7 +102,7 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
     if (_currentUser != null) {
       for (ta.Transaction t in _currentUser!.transactions) {
         if (t.transactionType == ta.TransactionType.incoming &&
-            t.date.month == month) {
+            (t.date.month <= month || t.date.year < DateTime.now().year)) {
           sumOfIncoming += t.price;
         }
       }
@@ -116,11 +116,11 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
     if (_currentUser != null) {
       for (ta.Transaction t in _currentUser!.transactions) {
         if (t.transactionType == ta.TransactionType.outgoing &&
-            t.date.month == month) {
+            (t.date.month <= month || t.date.year < DateTime.now().year)) {
           sumOfOutgoing += t.price;
         }
         if (t.transactionType == ta.TransactionType.saving &&
-            t.date.month == month) {
+            (t.date.month <= month || t.date.year < DateTime.now().year)) {
           sumOfOutgoing += t.price;
         }
       }
@@ -129,7 +129,7 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
   }
 
   @override
-  double getSumOfSaved(int month) {
+  double getSumOfSaved() {
     double sumOfSaved = 0;
     if (_currentUser != null) {
       for (ta.Transaction t in _currentUser!.transactions) {

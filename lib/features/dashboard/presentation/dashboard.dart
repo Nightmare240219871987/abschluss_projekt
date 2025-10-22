@@ -87,8 +87,7 @@ class _DashboardState extends State<Dashboard> {
               builder: (context, value, child) {
                 return BlueCard(
                   title: "Sparen",
-                  ammount:
-                      "${value.getSumOfSaved(DateTime.now().month).toStringAsFixed(2)}€",
+                  ammount: "${value.getSumOfSaved().toStringAsFixed(2)}€",
                   image: Misc.save,
                   icon: Icon(
                     Icons.arrow_upward_rounded,

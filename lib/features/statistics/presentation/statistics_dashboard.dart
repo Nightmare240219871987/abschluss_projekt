@@ -77,7 +77,7 @@ class _StatisticsDashboardState extends State<StatisticsDashboard> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 65),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

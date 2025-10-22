@@ -5,7 +5,7 @@ abstract class DatabaseRepository {
   // Programm functionality
   double getSumOfOutgoing(int month);
   double getSumOfIncoming(int month);
-  double getSumOfSaved(int month);
+  double getSumOfSaved();
   double getAvailable(int month);
   Future<List<Transaction>> getAllTransactions();
   void setUser(User user);
