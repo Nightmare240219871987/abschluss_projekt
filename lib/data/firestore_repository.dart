@@ -24,7 +24,7 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("transactions")
         .add({
-          "continuous": true,
+          "continuous": transaction.continuous,
           "date": Timestamp.fromDate(transaction.date),
           "description": transaction.description,
           "price": transaction.price,
@@ -115,13 +115,24 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
     double sumOfOutgoing = 0;
     if (_currentUser != null) {
       for (ta.Transaction t in _currentUser!.transactions) {
-        if (t.transactionType == ta.TransactionType.outgoing &&
-            (t.date.month <= month || t.date.year < DateTime.now().year)) {
-          sumOfOutgoing += t.price;
-        }
-        if (t.transactionType == ta.TransactionType.saving &&
-            (t.date.month <= month || t.date.year < DateTime.now().year)) {
-          sumOfOutgoing += t.price;
+        if (t.continuous) {
+          if (t.transactionType == ta.TransactionType.outgoing &&
+              (t.date.month <= month || t.date.year < DateTime.now().year)) {
+            sumOfOutgoing += t.price;
+          }
+          if (t.transactionType == ta.TransactionType.saving &&
+              (t.date.month <= month || t.date.year < DateTime.now().year)) {
+            sumOfOutgoing += t.price;
+          }
+        } else {
+          if (t.transactionType == ta.TransactionType.outgoing &&
+              (t.date.month == month)) {
+            sumOfOutgoing += t.price;
+          }
+          if (t.transactionType == ta.TransactionType.saving &&
+              (t.date.month == month)) {
+            sumOfOutgoing += t.price;
+          }
         }
       }
     }
@@ -177,7 +188,7 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
         .collection("transactions")
         .doc(id)
         .update({
-          "continuous": true,
+          "continuous": transaction.continuous,
           "date": Timestamp.fromDate(transaction.date),
           "description": transaction.description,
           "price": transaction.price,

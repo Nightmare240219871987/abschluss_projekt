@@ -13,7 +13,6 @@ Future<void> main() async {
   // TODO: KI Package finden installieren und mit daten trainieren.
   // TODO: Animation -> Splash screen
   // TODO: Übersetzung in andere Sprachen (intl Flutter package)
-  // TODO: Routing Policy bearbeiten. Entfernen vom Routing und ersetzen mit Landing Page und Pages
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

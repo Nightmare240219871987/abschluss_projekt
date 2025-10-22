@@ -3,7 +3,6 @@ import 'package:abschluss_projekt/common/widgets/colorized_icon_button.dart';
 import 'package:abschluss_projekt/features/statistics/domain/transaction_details.dart';
 import 'package:flutter/material.dart';
 
-// TODO: Continuous Mechanics implementieren
 class StatisticsDashboard extends StatefulWidget {
   const StatisticsDashboard({super.key});
 

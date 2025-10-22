@@ -100,7 +100,8 @@ List<ListTile> getListTiles(List<Transaction> ta, BuildContext context) {
     for (Transaction t in ta) {
       if (t.continuous) {
         // Continuierliche Ausgaben
-        if (t.date.month <= i + 1 && t.date.month <= DateTime.now().month) {
+        if ((t.date.month <= i + 1 || t.date.year < DateTime.now().year) &&
+            i + 1 <= DateTime.now().month) {
           monthly[i].add(t);
         }
       } else {

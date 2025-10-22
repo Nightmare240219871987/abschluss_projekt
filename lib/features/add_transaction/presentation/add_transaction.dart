@@ -30,6 +30,7 @@ class _AddTransactionState extends State<AddTransaction> {
   @override
   void initState() {
     super.initState();
+    isContinue = false;
     currentChoice = items[0];
   }
 

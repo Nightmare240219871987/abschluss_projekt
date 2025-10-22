@@ -18,5 +18,3 @@ abstract class Misc {
     height: 72,
   );
 }
-
-//TODO: Medaillen hinzufügen
