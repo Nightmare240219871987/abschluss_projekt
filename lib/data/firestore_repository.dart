@@ -85,6 +85,12 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
           ),
         );
       }
+      DocumentSnapshot<Map<String, dynamic>> user = await FirebaseFirestore
+          .instance
+          .collection("users")
+          .doc(_currentUser!.uid)
+          .get();
+      _currentUser!.currentSaved = (user["currentSaved"] as num).toDouble();
       _currentUser!.transactions = transactions;
     }
     notifyListeners();
@@ -237,5 +243,20 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
 
     _currentUser = null;
     notifyListeners();
+  }
+
+  @override
+  Future<void> addCurrentSaved(double saved) async {
+    _currentUser!.currentSaved += saved;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_currentUser!.uid)
+        .update({"currentSaved": _currentUser!.currentSaved});
+    await getAllTransactions();
+  }
+
+  @override
+  double readCurrentSaved() {
+    return _currentUser!.currentSaved;
   }
 }

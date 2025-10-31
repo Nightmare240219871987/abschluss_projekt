@@ -17,9 +17,11 @@ abstract class DatabaseRepository {
 
   // READ
   Future<Transaction?> readTransaction(String id);
+  double readCurrentSaved();
 
   // UPDATE
   Future<void> updateTransaction(String id, Transaction transaction);
+  Future<void> addCurrentSaved(double saved);
 
   // DELETE
   Future<void> deleteTransaction(String id);

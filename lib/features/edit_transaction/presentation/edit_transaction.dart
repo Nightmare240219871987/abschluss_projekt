@@ -56,6 +56,16 @@ class _EditTransactionState extends State<EditTransaction> {
   }
 
   @override
+  void dispose() {
+    _titleCtrl.dispose();
+    _descriptionCtrl.dispose();
+    _amountCtrl.dispose();
+    _senderCtrl.dispose();
+    _receipientCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
