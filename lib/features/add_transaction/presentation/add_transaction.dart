@@ -123,9 +123,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   labelText: "Beschreibung",
                   labelStyle: TextStyle(
-                    color:
-                        themeProvider
-                            .isDarkMode // kann lokalen theme Provider enthalten
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -137,9 +135,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 decoration: InputDecoration(
                   labelText: "Betrag",
                   labelStyle: TextStyle(
-                    color:
-                        themeProvider
-                            .isDarkMode // kann lokalen themeProvider enthalten
+                    color: themeProvider.isDarkMode
                         ? Color(0xFFeeeeee)
                         : Color(0xFF111111),
                   ),
@@ -196,7 +192,7 @@ class _AddTransactionState extends State<AddTransaction> {
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 8,
-        onPressed: () async {
+        onPressed: () {
           DatabaseRepository db = context.read<FirestoreRepository>();
           TransactionType type;
           if (currentChoice == "Ausgaben") {
@@ -222,7 +218,7 @@ class _AddTransactionState extends State<AddTransaction> {
               100000,
               200000,
               500000,
-              100000,
+              1000000,
             ];
             int count = 0;
             double currentSaved = db.readCurrentSaved();
@@ -242,7 +238,7 @@ class _AddTransactionState extends State<AddTransaction> {
           } else {
             type = TransactionType.outgoing;
           }
-          await db.createTransaction(
+          db.createTransaction(
             Transaction(
               id: "",
               title: _titleCtrl.text,
@@ -257,7 +253,7 @@ class _AddTransactionState extends State<AddTransaction> {
           );
           index++;
           if (context.mounted) {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           }
         },
         child: Icon(Icons.add),

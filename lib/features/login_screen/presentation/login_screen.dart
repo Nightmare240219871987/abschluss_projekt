@@ -1,5 +1,6 @@
 import 'package:abschluss_projekt/data/auth_repository.dart';
 import 'package:abschluss_projekt/data/firebase_auth_repository.dart';
+import 'package:abschluss_projekt/features/login_screen/presentation/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -111,9 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       ElevatedButton(
                         onPressed: isCorrect
-                            ? () async {
+                            ? () {
                                 if (context.mounted) {
-                                  await auth.signInWithEmailAndPassword(
+                                  auth.signInWithEmailAndPassword(
                                     _usernameCtrl.text,
                                     _passwordCtrl.text,
                                     onError: (Object e) {
@@ -138,7 +139,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed("/register");
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => RegisterScreen(),
+                            ),
+                          );
                         },
                         child: Text("Registrierung"),
                       ),

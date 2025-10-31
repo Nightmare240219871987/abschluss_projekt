@@ -18,6 +18,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isCorrect = false;
 
   @override
+  void dispose() {
+    _usernameCtrl.dispose();
+    _passwordCtrl.dispose();
+    _passwordConfirmCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     AuthRepository auth = context.read<FirebaseAuthRepository>();
     return Scaffold(
@@ -106,7 +114,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     isCorrect = true;
                                   });
                                 }
-
                                 return null;
                               },
                             ),
@@ -162,9 +169,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       ElevatedButton(
                         onPressed: isCorrect
-                            ? () async {
+                            ? () {
                                 if (context.mounted) {
-                                  await auth.createAccountWithEmailAndPassword(
+                                  auth.createAccountWithEmailAndPassword(
                                     _usernameCtrl.text,
                                     _passwordCtrl.text,
                                     onError: (Object e) {

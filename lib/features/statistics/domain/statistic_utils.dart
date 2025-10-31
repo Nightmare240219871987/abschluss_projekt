@@ -124,8 +124,8 @@ List<ListTile> getListTiles(List<Transaction> ta, BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              onPressed: () async {
-                await Navigator.of(context).push(
+              onPressed: () {
+                Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => EditTransaction(id: t.id),
                   ),
@@ -134,8 +134,8 @@ List<ListTile> getListTiles(List<Transaction> ta, BuildContext context) {
               icon: Icon(Icons.edit),
             ),
             IconButton(
-              onPressed: () async {
-                await db.deleteTransaction(t.id);
+              onPressed: () {
+                db.deleteTransaction(t.id);
               },
               icon: Icon(Icons.delete, color: Colors.red),
             ),

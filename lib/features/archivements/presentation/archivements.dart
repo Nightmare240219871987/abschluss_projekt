@@ -1,5 +1,6 @@
 import 'package:abschluss_projekt/data/database_repository.dart';
 import 'package:abschluss_projekt/data/firestore_repository.dart';
+import 'package:abschluss_projekt/features/archivements/domain/medal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +49,7 @@ class _ArchivementsState extends State<Archivements> {
       100000,
       200000,
       500000,
-      100000,
+      1000000,
     ];
     List<bool> archivements = unlockMedals(
       context.read<FirestoreRepository>(),
@@ -59,8 +60,7 @@ class _ArchivementsState extends State<Archivements> {
       medalBadges.add(
         Badge(
           backgroundColor: Colors.transparent,
-          label: medalImages[i],
-          isLabelVisible: archivements[i],
+          label: Medal(image: medalImages[i], unlocked: archivements[i]),
         ),
       );
     }
