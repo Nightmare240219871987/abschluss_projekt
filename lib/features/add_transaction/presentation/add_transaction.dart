@@ -30,7 +30,18 @@ class _AddTransactionState extends State<AddTransaction> {
   @override
   void initState() {
     super.initState();
+    isContinue = false;
     currentChoice = items[0];
+  }
+
+  @override
+  void dispose() {
+    _titleCtrl.dispose();
+    _descriptionCtrl.dispose();
+    _amountCtrl.dispose();
+    _senderCtrl.dispose();
+    _receipientCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -194,6 +205,40 @@ class _AddTransactionState extends State<AddTransaction> {
             type = TransactionType.incoming;
           } else if (currentChoice == "Erspartes") {
             type = TransactionType.saving;
+            double saved = double.tryParse(_amountCtrl.text) ?? 0;
+            db.addCurrentSaved(saved);
+            List<int> limits = [
+              20,
+              50,
+              100,
+              200,
+              500,
+              1000,
+              2000,
+              5000,
+              10000,
+              20000,
+              50000,
+              100000,
+              200000,
+              500000,
+              100000,
+            ];
+            int count = 0;
+            double currentSaved = db.readCurrentSaved();
+            for (int i = 0; i < limits.length; i++) {
+              if (currentSaved > limits[i] && currentSaved < limits[i + 1]) {
+                count = i;
+                break;
+              }
+            }
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  "die Medaillie für ${limits[count]}€ wurde freigeschaltet.",
+                ),
+              ),
+            );
           } else {
             type = TransactionType.outgoing;
           }

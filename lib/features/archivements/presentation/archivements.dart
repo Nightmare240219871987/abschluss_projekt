@@ -1,8 +1,8 @@
+import 'package:abschluss_projekt/data/database_repository.dart';
+import 'package:abschluss_projekt/data/firestore_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-//TODO: Freischalt Mechanic implementieren
-
-// ignore: must_be_immutable
 class Archivements extends StatefulWidget {
   const Archivements({super.key});
 
@@ -33,16 +33,51 @@ class _ArchivementsState extends State<Archivements> {
 
   @override
   void initState() {
+    List<int> limits = [
+      20,
+      50,
+      100,
+      200,
+      500,
+      1000,
+      2000,
+      5000,
+      10000,
+      20000,
+      50000,
+      100000,
+      200000,
+      500000,
+      100000,
+    ];
+    List<bool> archivements = unlockMedals(
+      context.read<FirestoreRepository>(),
+      limits,
+    );
+
     for (int i = 0; i < medalImages.length; i++) {
       medalBadges.add(
         Badge(
           backgroundColor: Colors.transparent,
           label: medalImages[i],
-          isLabelVisible: true,
+          isLabelVisible: archivements[i],
         ),
       );
     }
     super.initState();
+  }
+
+  List<bool> unlockMedals(DatabaseRepository db, List<int> limits) {
+    List<bool> boolList = [];
+    double currentSaved = db.readCurrentSaved();
+    for (int i = 0; i < limits.length; i++) {
+      if (currentSaved >= limits[i]) {
+        boolList.add(true);
+        continue;
+      }
+      boolList.add(false);
+    }
+    return boolList;
   }
 
   @override

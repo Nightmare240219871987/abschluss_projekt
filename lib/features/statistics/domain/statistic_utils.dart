@@ -41,10 +41,19 @@ List<BarChartGroupData> generateGroupData(List<Transaction> ta) {
   List<double> monthly = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   List<BarChartRodData> rods = [];
   List<BarChartGroupData> groups = [];
-  for (int i = 1; i <= 12; i++) {
+  for (int i = 0; i < 12; i++) {
     for (Transaction t in ta) {
-      if (t.date.month == i) {
-        monthly[i - 1] += t.price;
+      if (t.continuous) {
+        // Continuierliche Ausgaben
+        if ((t.date.month <= i + 1 || t.date.year < DateTime.now().year) &&
+            i + 1 <= DateTime.now().month) {
+          monthly[i] += t.price;
+        }
+      } else {
+        // Einmalige Ausgaben
+        if (t.date.month == i + 1) {
+          monthly[i] += t.price;
+        }
       }
     }
   }
@@ -91,7 +100,8 @@ List<ListTile> getListTiles(List<Transaction> ta, BuildContext context) {
     for (Transaction t in ta) {
       if (t.continuous) {
         // Continuierliche Ausgaben
-        if (t.date.month == i + 1) {
+        if ((t.date.month <= i + 1 || t.date.year < DateTime.now().year) &&
+            i + 1 <= DateTime.now().month) {
           monthly[i].add(t);
         }
       } else {

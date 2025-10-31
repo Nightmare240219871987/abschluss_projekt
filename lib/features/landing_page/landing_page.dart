@@ -1,3 +1,4 @@
+import 'package:abschluss_projekt/features/add_transaction/presentation/add_transaction.dart';
 import 'package:abschluss_projekt/features/archivements/presentation/archivements.dart';
 import 'package:abschluss_projekt/features/dashboard/presentation/dashboard.dart';
 import 'package:abschluss_projekt/features/settings/presentation/settings.dart';
@@ -56,6 +57,16 @@ class _LandingPageState extends State<LandingPage> {
           Icon(Icons.settings, color: Colors.white),
         ],
       ),
+      floatingActionButton: _currentPage == 0
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AddTransaction()),
+                );
+              },
+              child: Icon(Icons.add),
+            )
+          : null,
     );
   }
 }
