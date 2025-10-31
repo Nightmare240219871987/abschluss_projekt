@@ -39,43 +39,6 @@ class _StatisticsDashboardState extends State<StatisticsDashboard> {
         child: Column(
           spacing: 8,
           children: [
-            Row(
-              spacing: 20,
-              children: [
-                Expanded(
-                  child: LinearProgressIndicator(value: 0.66, minHeight: 25),
-                ),
-                Image.asset("assets/misc/medal.png", height: 64),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  width: 96,
-                  height: 48,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: Image.asset("assets/misc/medal.png", height: 48),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 18,
-                        child: Image.asset("assets/misc/medal.png", height: 48),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 36,
-                        child: Image.asset("assets/misc/medal.png", height: 48),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
             SizedBox(height: 65),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -118,6 +81,7 @@ class _StatisticsDashboardState extends State<StatisticsDashboard> {
                 ),
               ],
             ),
+            SizedBox(height: 120),
             _statistics[_currentIndex],
           ],
         ),

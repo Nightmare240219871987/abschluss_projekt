@@ -25,6 +25,9 @@ class _DashboardState extends State<Dashboard> {
     AuthRepository auth = context.read<FirebaseAuthRepository>();
     DatabaseRepository db = context.read<FirestoreRepository>();
     db.setUser(auth.getUser());
+    if (!(await db.currentSavedExists())) {
+      db.createNewUser();
+    }
     await db.initialize();
   }
 

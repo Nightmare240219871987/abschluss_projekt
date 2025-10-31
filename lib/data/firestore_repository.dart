@@ -235,12 +235,6 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
 
     await FirebaseFirestore.instance.collection("users").doc(uid).delete();
 
-    try {
-      await FirebaseAuth.instance.currentUser!.delete();
-    } on FirebaseAuthException {
-      rethrow;
-    }
-
     _currentUser = null;
     notifyListeners();
   }
@@ -258,5 +252,23 @@ class FirestoreRepository extends ChangeNotifier implements DatabaseRepository {
   @override
   double readCurrentSaved() {
     return _currentUser!.currentSaved;
+  }
+
+  @override
+  Future<void> createNewUser() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_currentUser!.uid)
+        .set({"currentSaved": (0 as num)});
+  }
+
+  @override
+  Future<bool> currentSavedExists() async {
+    DocumentSnapshot user = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_currentUser!.uid)
+        .get();
+    final data = user.data() as Map<String, dynamic>?;
+    return data != null && data.containsKey("currentSaved");
   }
 }

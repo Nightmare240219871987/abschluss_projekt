@@ -47,8 +47,8 @@ class _SettingsState extends State<Settings> {
           ListTile(
             leading: Text("Account"),
             trailing: TextButton(
-              onPressed: () async {
-                await auth.signOut();
+              onPressed: () {
+                auth.signOut();
                 setState(() {});
               },
               child: Text("Ausloggen"),
@@ -57,10 +57,44 @@ class _SettingsState extends State<Settings> {
           ListTile(
             leading: null,
             trailing: TextButton(
-              onPressed: () async {
-                if (context.mounted) {
-                  await db.deleteUser();
-                }
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("User löschen?"),
+                      content: Text(
+                        "Wollen die den Benutzer mit allen Daten löschen? Alle daten sind dann unwiederbringlich verloren!",
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            db.deleteUser().whenComplete(() {
+                              auth.deleteAccount();
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Benutzer wurde gelöscht"),
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "Löschen",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Abbrechen"),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               child: Text("Löschen", style: TextStyle(color: Colors.red)),
             ),
